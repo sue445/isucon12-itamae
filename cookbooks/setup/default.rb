@@ -58,13 +58,13 @@ remote_file "#{home_dir}/.ssh/config"
   end
 end
 
-git "/home/isucon/xbuild" do
+git node[:xbuild][:path] do
   repository "https://github.com/tagomoris/xbuild.git"
   user       "isucon"
 end
 
 # xbuildで最新のrubyを入れる
-execute "#{home_dir}/xbuild/ruby-install #{node[:ruby][:version]} #{home_dir}/local/ruby" do
+execute "#{node[:xbuild][:path]}/ruby-install #{node[:ruby][:version]} #{home_dir}/local/ruby" do
   user "isucon"
 
   not_if "#{node[:ruby][:binary]} --version | grep #{node[:ruby][:version]}"
