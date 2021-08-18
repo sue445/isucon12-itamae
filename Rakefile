@@ -47,9 +47,9 @@ namespace :itamae do
 
   namespace :all do
     desc "Setup all hosts (dry-run)"
-    multitask :dry_run => hosts.keys.map { |host| "itamae:#{host}:dry_run" }
+    task :dry_run => hosts.keys.map { |host| "itamae:#{host}:dry_run" }
 
     desc "Setup all hosts"
-    multitask :apply => hosts.keys.map { |host| "itamae:#{host}:apply" }
+    task :apply => hosts.keys.map { |host| "itamae:#{host}:apply" }
   end
 end
