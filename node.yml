@@ -3,7 +3,7 @@ xbuild:
 
 ruby:
   version: 3.0.2
-  binary: "/home/isucon/local/ruby/bin/binary"
+  binary: "/home/isucon/local/ruby/bin/ruby"
 
 gem:
   binary: "/home/isucon/local/ruby/bin/gem"
