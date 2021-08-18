@@ -44,9 +44,7 @@ execute %Q(echo "alias tm='(tmux list-sessions || tmux -u) && tmux -u a'" >> #{h
   not_if "cat #{home_dir}/.bashrc | grep 'alias tm'"
 end
 
-remote_file "#{home_dir}/.ssh/config" do
-  source "files/.ssh/config"
-end
+remote_file "#{home_dir}/.ssh/config"
 
 # インストールはするがサービスは止めておく
 [
