@@ -1,1 +1,14 @@
 user: isucon
+
+ruby:
+  version: 3.0.2
+  binary: "/home/isucon/local/ruby/bin/binary"
+
+gem:
+  binary: "/home/isucon/local/ruby/bin/gem"
+  install:
+    - stakprof-webnav
+
+git_global_config:
+  user.email: "sue445@sue445.net"
+  user.name:  "sue445"
