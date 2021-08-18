@@ -13,6 +13,7 @@ GEM
       net-ssh (>= 2.6.5, < 7.0.0)
     net-ssh (6.1.0)
     net-telnet (0.1.1)
+    rake (13.0.6)
     schash (0.1.2)
     sfl (2.3)
     specinfra (2.82.25)
@@ -27,6 +28,7 @@ PLATFORMS
 
 DEPENDENCIES
   itamae
+  rake
 
 BUNDLED WITH
    2.2.22
