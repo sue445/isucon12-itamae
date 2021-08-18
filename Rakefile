@@ -29,7 +29,7 @@ def run_itamae(hostname:, ip_address:, dry_run:)
   end
 end
 
-namespace :itaame do
+namespace :itamae do
   hosts = YAML.load_file("hosts.yml")
   hosts.each do |name, data|
     namespace name do
