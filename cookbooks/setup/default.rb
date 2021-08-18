@@ -40,8 +40,16 @@ execute "wget https://raw.githubusercontent.com/sue445/dotfiles/master/_tmux_3_x
 end
 
 # bashrcに設定を追加
-execute %Q(echo "alias tm='(tmux list-sessions || tmux -u) && tmux -u a'" >> #{home_dir}/.bashrc) do
-  not_if "cat #{home_dir}/.bashrc | grep 'alias tm'"
+file "#{home_dir}/.bashrc" do
+  action :edit
+
+  block do |content|
+    unless content.include?("alias tm")
+      content << <<~BASH
+        alias tm='(tmux list-sessions || tmux -u) && tmux -u a'
+      BASH
+    end
+  end
 end
 
 remote_file "#{home_dir}/.ssh/config"
