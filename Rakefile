@@ -33,12 +33,12 @@ namespace :itamae do
   hosts = YAML.load_file("hosts.yml")
   hosts.each do |name, data|
     namespace name do
-      desc "setup #{name} (dry-run)"
+      desc "Setup #{name} (dry-run)"
       task :dry_run do
         run_itamae(hostname: data["hostname"], ip_address: data["ip_address"], dry_run: true)
       end
 
-      desc "setup #{name}"
+      desc "Setup #{name}"
       task :apply do
         run_itamae(hostname: data["hostname"], ip_address: data["ip_address"], dry_run: false)
       end
