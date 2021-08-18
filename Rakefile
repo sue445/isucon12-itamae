@@ -15,7 +15,7 @@ def run_itamae(hostname:, ip_address:, dry_run:)
     command = [
       "itamae",
       "ssh",
-      "--user", node["user"],
+      "--user", "isucon",
       "--host", ip_address,
       "--node-yaml", node_yaml,
       "cookbooks/setup/default.rb"

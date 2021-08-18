@@ -1,5 +1,3 @@
-user: isucon
-
 ruby:
   version: 3.0.2
   binary: "/home/isucon/local/ruby/bin/binary"

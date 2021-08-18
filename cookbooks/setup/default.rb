@@ -1,4 +1,4 @@
-home_dir = "/home/#{node[:user]}"
+home_dir = "/home/isucon"
 
 # hostnameを設定
 execute "hostnamectl set-hostname #{node[:hostname]}" do
