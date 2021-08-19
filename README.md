@@ -9,6 +9,10 @@ ISUCON11の環境構築用Itamae
 bundle install
 ```
 
+## Config
+* [hosts.yml](hosts.yml) : Itamae実行対象のサーバ（事前にisuconユーザでsshできるようにしておく）
+* [node.yml](node.yml) : 全サーバに適用する設定
+
 ## Usage
 ```bash
 $ bundle exec rake -T
