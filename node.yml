@@ -25,13 +25,13 @@ packages:
 # NOTE: `sudo systemctl list-unit-files --type=service | grep isu` などで調べる
 services:
   enabled:
-    - isucari.ruby
+    # - isucari.ruby
   disabled:
-    - isucari.golang
-    - isucari.nodejs
-    - isucari.perl
-    - isucari.php
-    - isucari.python
+    # - isucari.golang
+    # - isucari.nodejs
+    # - isucari.perl
+    # - isucari.php
+    # - isucari.python
 
     # インストールはするが実際に使うまでサービスは止めておく
     - redis-server

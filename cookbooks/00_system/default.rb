@@ -1,3 +1,6 @@
+node[:services][:enabled] ||= []
+node[:services][:disabled] ||= []
+
 # hostnameを設定
 execute "hostnamectl set-hostname #{node[:hostname]}" do
   not_if "hostname | grep #{node[:hostname]}"
