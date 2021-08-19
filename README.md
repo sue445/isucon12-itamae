@@ -7,8 +7,8 @@ ISUCON11の環境構築用Itamae
 ## Usage
 ```bash
 $ bundle exec rake -T
-rake itamae:all:apply     # Setup all hosts
-rake itamae:all:dry_run   # Setup all hosts (dry-run)
-rake itamae:test:apply    # Setup test
-rake itamae:test:dry_run  # Setup test (dry-run)
+rake itamae:all:apply     # Run Itamae to all hosts
+rake itamae:all:dry_run   # Run Itamae to all hosts (dry-run)
+rake itamae:test:apply    # Run Itamae to test
+rake itamae:test:dry_run  # Run Itamae to test (dry-run)
 ```
