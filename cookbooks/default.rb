@@ -90,3 +90,19 @@ node[:services][:enabled].each do |name|
     action [:start, :enable]
   end
 end
+
+# ulimit変更
+file "/etc/security/limits.conf" do
+  action :edit
+
+  block do |content|
+    unless content.include?("* soft nofile 65536")
+      content << <<~EOF
+        * soft nofile 65536
+        * hard nofile 65536
+      EOF
+    end
+  end
+
+  not_if "ulimit -n | grep 65536"
+end
