@@ -1,3 +1,5 @@
+home_dir = "/home/isucon"
+
 git node[:xbuild][:path] do
   repository "https://github.com/tagomoris/xbuild.git"
   user       "isucon"
