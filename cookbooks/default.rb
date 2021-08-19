@@ -14,6 +14,8 @@ end
 
 # sshの鍵を生成する
 execute %Q(ssh-keygen -t ed25519 -C "sue445@$(hostname)" -N "" -f #{home_dir}/.ssh/id_ed25519 -q) do
+  user "isucon"
+
   not_if "ls #{home_dir}/.ssh/id_ed25519"
 end
 
@@ -36,12 +38,15 @@ end
 
 # 自分のdotfilesにあるtmuxの設定をDL
 execute "wget https://raw.githubusercontent.com/sue445/dotfiles/master/_tmux_3_x.conf -O #{home_dir}/.tmux.conf" do
+  user "isucon"
+
   not_if "ls #{home_dir}/.tmux.conf"
 end
 
 # bashrcに設定を追加
 file "#{home_dir}/.bashrc" do
   action :edit
+  user "isucon"
 
   block do |content|
     unless content.include?("alias tm")
