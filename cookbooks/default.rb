@@ -25,14 +25,7 @@ execute "apt-get update && touch /tmp/apt-get-update" do
 end
 
 # ツールのインストール
-[
-  "htop",
-  "tmux",
-  "tig",
-
-  # stakprof-webnavで必要
-  "graphviz",
-].each do |name|
+node[:packages].each do |name|
   package name
 end
 
@@ -65,18 +58,6 @@ end
 
 remote_file "#{home_dir}/.ssh/config"
 
-# インストールはするがサービスは止めておく
-[
-  "redis-server",
-  "memcached",
-].each do |name|
-  package name
-
-  service name do
-    action [:stop, :disable]
-  end
-end
-
 git node[:xbuild][:path] do
   repository "https://github.com/tagomoris/xbuild.git"
   user       "isucon"
@@ -94,5 +75,18 @@ node[:gem][:install].each do |name|
     gem_binary node[:gem][:binary]
     options    "--no-doc"
     user       "isucon"
+  end
+end
+
+# サービスのON/OFF
+node[:services][:disabled].each do |name|
+  service name do
+    action [:stop, :disable]
+  end
+end
+
+node[:services][:enabled].each do |name|
+  service name do
+    action [:start, :enable]
   end
 end

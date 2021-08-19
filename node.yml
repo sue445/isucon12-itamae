@@ -13,3 +13,26 @@ gem:
 git_global_config:
   user.email: "sue445@sue445.net"
   user.name:  "sue445"
+
+packages:
+  - htop
+  - tmux
+  - tig
+  - graphviz # stakprof-webnavで必要
+  - redis-server
+  - memcached
+
+# NOTE: `sudo systemctl list-unit-files --type=service | grep isu` などで調べる
+services:
+  enabled:
+    - isucari.ruby
+  disabled:
+    - isucari.golang
+    - isucari.nodejs
+    - isucari.perl
+    - isucari.php
+    - isucari.python
+
+    # インストールはするが実際に使うまでサービスは止めておく
+    - redis-server
+    - memcached
