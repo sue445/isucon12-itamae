@@ -16,11 +16,6 @@ node[:packages].each do |name|
   package name
 end
 
-git node[:xbuild][:path] do
-  repository "https://github.com/tagomoris/xbuild.git"
-  user       "isucon"
-end
-
 # サービスのON/OFF
 node[:services][:disabled].each do |name|
   service name do

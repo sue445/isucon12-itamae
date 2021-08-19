@@ -42,19 +42,3 @@ file "#{home_dir}/.bashrc" do
 end
 
 remote_file "#{home_dir}/.ssh/config"
-
-# xbuildで最新のrubyを入れる
-execute "#{node[:xbuild][:path]}/ruby-install #{node[:ruby][:version]} #{home_dir}/local/ruby" do
-  user "isucon"
-
-  not_if "#{node[:ruby][:binary]} --version | grep #{node[:ruby][:version]}"
-end
-
-node[:gem][:install].each do |name|
-  gem_package name do
-    gem_binary node[:gem][:binary]
-    options    "--no-doc"
-    user       "isucon"
-  end
-end
-
