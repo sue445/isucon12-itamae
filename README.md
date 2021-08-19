@@ -1,6 +1,10 @@
 # isucon11-itamae
 ISUCON11の環境構築用Itamae
 
+## Requirements
+* isuconユーザでsshできるようにしておく
+
+## Usage
 ```bash
 $ bundle exec rake -T
 rake itamae:all:apply     # Setup all hosts
