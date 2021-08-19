@@ -1,3 +1,3 @@
-Dir["cookbooks/*"].sort.map { |name| name.gsub("cookbooks/", "") }.each do |name|
-  include_recipe name
-end
+include_recipe "./system"
+include_recipe "./mysql"
+include_recipe "./user"
