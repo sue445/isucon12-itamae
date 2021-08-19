@@ -36,11 +36,17 @@ end
   package name
 end
 
-# 自分のdotfilesにあるtmuxの設定をDL
+# 自分のdotfilesにある設定をDL
 execute "wget https://raw.githubusercontent.com/sue445/dotfiles/master/_tmux_3_x.conf -O #{home_dir}/.tmux.conf" do
   user "isucon"
 
   not_if "ls #{home_dir}/.tmux.conf"
+end
+
+execute "wget https://raw.githubusercontent.com/sue445/dotfiles/master/_tigrc -O #{home_dir}/.tigrc" do
+  user "isucon"
+
+  not_if "ls #{home_dir}/.tigrc"
 end
 
 # bashrcに設定を追加
