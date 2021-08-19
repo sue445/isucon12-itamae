@@ -50,7 +50,7 @@ namespace :itamae do
     task :dry_run => hosts.keys.map { |host| "itamae:#{host}:dry_run" }
 
     desc "Run Itamae to all hosts"
-    task :apply => hosts.keys.map { |host| "itamae:#{host}:apply" }
+    multitask :apply => hosts.keys.map { |host| "itamae:#{host}:apply" }
   end
 end
 
