@@ -18,7 +18,7 @@ def run_itamae(hostname:, ip_address:, dry_run:)
       "--user", "isucon",
       "--host", ip_address,
       "--node-yaml", node_yaml,
-      "cookbooks/setup/default.rb"
+      "cookbooks/default.rb"
     ]
 
     if dry_run
