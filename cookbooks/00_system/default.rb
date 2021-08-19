@@ -39,12 +39,20 @@ file "/etc/security/limits.conf" do
   action :edit
 
   block do |content|
-    unless content.include?("* soft nofile 65536")
+    unless content.include?("* soft nofile")
       content << <<~EOF
         * soft nofile 65536
+      EOF
+    end
+
+    unless content.include?("* hard nofile")
+      content << <<~EOF
         * hard nofile 65536
       EOF
     end
+
+    content.gsub!(/^\*\s+soft\s+nofile.+$/, "* soft nofile 65536")
+    content.gsub!(/^\*\s+hard\s+nofile.+$/, "* hard nofile 65536")
   end
 
   not_if "ulimit -n | grep 65536"
