@@ -4,6 +4,11 @@ ISUCON11の環境構築用Itamae
 ## Requirements
 * isuconユーザでsshできるようにしておく
 
+## Setup
+```bash
+bundle install
+```
+
 ## Usage
 ```bash
 $ bundle exec rake -T
