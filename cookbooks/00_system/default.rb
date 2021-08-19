@@ -38,6 +38,7 @@ end
 file "/etc/security/limits.conf" do
   action :edit
 
+  # soft nofileとhard nofileをそれぞれ65536に設定する
   block do |content|
     unless content.include?("* soft nofile")
       content << <<~EOF
