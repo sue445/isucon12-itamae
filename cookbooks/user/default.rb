@@ -3,6 +3,8 @@ home_dir = "/home/isucon"
 # サーバ内でgit commitできるようにuser.nameとuser.emailは最低限設定する
 node[:git_global_config].each do |name, value|
   execute "git config --global #{name} '#{value}'" do
+    user "isucon"
+
     not_if "git config --global #{name} | grep '#{value}'"
   end
 end
