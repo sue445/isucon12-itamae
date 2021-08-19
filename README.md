@@ -20,12 +20,13 @@ rake itamae:all:apply     # Run Itamae to all hosts
 rake itamae:all:dry_run   # Run Itamae to all hosts (dry-run)
 rake itamae:test:apply    # Run Itamae to test
 rake itamae:test:dry_run  # Run Itamae to test (dry-run)
+rake print_public_keys    # Print all server's public keys
 ```
 
-初回実行時はrubyのビルドに時間がかかるのでビルド待ちの間にターミナルの別窓からsshして
+初回実行時はrubyのビルドに時間がかかるのでビルド待ちの間にターミナルの別窓で
 
 ```bash
-cat ~/.ssh/id_ed25519.pub
+bundle exec rake print_public_keys
 ```
 
 の実行結果を https://github.com/settings/keys に登録する

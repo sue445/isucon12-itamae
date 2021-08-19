@@ -53,3 +53,16 @@ namespace :itamae do
     task :apply => hosts.keys.map { |host| "itamae:#{host}:apply" }
   end
 end
+
+desc "Print all server's public keys"
+task :print_public_keys do
+  hosts = YAML.load_file("hosts.yml")
+
+  public_keys =
+    hosts.map do |_, v|
+      ip_address = v["ip_address"]
+      `ssh isucon@#{ip_address} cat /home/isucon/.ssh/id_ed25519.pub`.strip
+    end
+
+  puts public_keys.join("\n")
+end
