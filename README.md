@@ -29,4 +29,4 @@ rake print_public_keys    # Print all server's public keys
 bundle exec rake print_public_keys
 ```
 
-の実行結果を https://github.com/settings/keys に登録する
+の実行結果を https://github.com/settings/keys か `/settings/keys` に登録する
