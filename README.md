@@ -1,5 +1,5 @@
-# isucon11-itamae
-ISUCON11の環境構築用Itamae
+# isucon-itamae
+ISUCONの環境構築用Itamae
 
 ## Requirements
 * isuconユーザでsshできるようにしておく
