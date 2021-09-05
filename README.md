@@ -1,6 +1,8 @@
 # isucon-itamae
 ISUCONの環境構築用Itamae
 
+[![Build Status](https://github.com/sue445/isucon-itamae/workflows/test/badge.svg?branch=master)](https://github.com/sue445/isucon-itamae/actions?query=workflow%3Atest)
+
 ## Requirements
 * isuconユーザでsshできるようにしておく
 
