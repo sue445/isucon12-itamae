@@ -39,3 +39,8 @@ bundle exec rake print_public_keys
 ```
 
 の実行結果を https://github.com/settings/keys かデプロイ対象のリポジトリの `/settings/keys` に登録する
+
+## Testing
+```bash
+bundle exec rake test
+```
