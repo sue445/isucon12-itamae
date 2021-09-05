@@ -43,3 +43,14 @@ file "#{home_dir}/.bashrc" do
 end
 
 remote_file "#{home_dir}/.ssh/config"
+
+execute "cp /etc/mysql/debian.cnf #{home_dir}/.my.cnf" do
+  # NOTE: /etc/mysql/debian.cnfが存在 && .my.cnf が存在しない場合のみファイルをコピーする
+  only_if "test -f /etc/mysql/debian.cnf -a ! -f #{home_dir}/.my.cnf"
+end
+
+file "#{home_dir}/.my.cnf" do
+  owner "isucon"
+  group "isucon"
+  mode  "644"
+end
