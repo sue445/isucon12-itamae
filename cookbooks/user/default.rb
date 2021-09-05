@@ -32,7 +32,6 @@ end
 # bashrcに設定を追加
 file "#{home_dir}/.bashrc" do
   action :edit
-  user "isucon"
 
   block do |content|
     unless content.include?("alias tm")

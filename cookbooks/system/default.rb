@@ -1,9 +1,13 @@
 node[:services][:enabled] ||= []
 node[:services][:disabled] ||= []
 
-# hostnameを設定
-execute "hostnamectl set-hostname #{node[:hostname]}" do
-  not_if "hostname | grep #{node[:hostname]}"
+
+# Dockerコンテナ内ではhostnameを変更できないのでスキップする
+unless node[:docker]
+  # hostnameを設定
+  execute "hostnamectl set-hostname #{node[:hostname]}" do
+    not_if "hostname | grep #{node[:hostname]}"
+  end
 end
 
 # サーバ起動後の最初の1回だけapt-get updateを実行するためにキャッシュを作る
@@ -52,16 +56,4 @@ file "/etc/security/limits.conf" do
   end
 
   not_if "ulimit -n | grep 65536"
-end
-
-file "/etc/newrelic-infra.yml" do
-  action :edit
-
-  block do |content|
-    unless content.include?("enable_process_metrics")
-      content << <<~YAML
-        enable_process_metrics: true
-      YAML
-    end
-  end
 end

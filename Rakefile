@@ -87,7 +87,7 @@ namespace :test do
       "--container", itamae_container_name,
       "--tag", "itamae:latest",
       "--tmp-dir", "/var/tmp/itamae_tmp",
-      "--node-yaml", "node.yml",
+      "--node-yaml", "test/node.yml",
       "cookbooks/default.rb"
     ]
     sh command.join(" ")

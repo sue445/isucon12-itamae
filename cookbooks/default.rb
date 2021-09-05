@@ -7,3 +7,7 @@ unless node[:hostname].include?("bench")
   # NOTE: これが一番重いので他の作業が中断しないように一番最後に実行する
   include_recipe "./ruby"
 end
+
+if node[:newrelic]
+  include_recipe "./newrelic"
+end
