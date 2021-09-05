@@ -16,11 +16,18 @@ bundle install
 ## Usage
 ```bash
 $ bundle exec rake -T
-rake itamae:all:apply     # Run Itamae to all hosts
-rake itamae:all:dry_run   # Run Itamae to all hosts (dry-run)
-rake itamae:test:apply    # Run Itamae to test
-rake itamae:test:dry_run  # Run Itamae to test (dry-run)
-rake print_public_keys    # Print all server's public keys
+rake itamae:all:apply       # Run Itamae to all hosts
+rake itamae:all:dry_run     # Run Itamae to all hosts (dry-run)
+rake itamae:host01:apply    # Run Itamae to host01
+rake itamae:host01:dry_run  # Run Itamae to host01 (dry-run)
+rake itamae:host02:apply    # Run Itamae to host02
+rake itamae:host02:dry_run  # Run Itamae to host02 (dry-run)
+rake itamae:host03:apply    # Run Itamae to host03
+rake itamae:host03:dry_run  # Run Itamae to host03 (dry-run)
+rake print_public_keys      # Print all server's public keys
+rake test:boot              # Boot container
+rake test:clean             # Clean a docker container for test
+rake test:itamae            # Run itamae
 ```
 
 初回実行時はrubyのビルドに時間がかかるのでビルド待ちの間にターミナルの別窓で

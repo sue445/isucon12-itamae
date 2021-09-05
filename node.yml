@@ -15,6 +15,8 @@ git_global_config:
   user.name:  "sue445"
 
 packages:
+  - git
+  - wget
   - htop
   - tmux
   - tig
@@ -37,3 +39,5 @@ services:
     # インストールはするが実際に使うまでサービスは止めておく
     - redis-server
     - memcached
+
+newrelic: true

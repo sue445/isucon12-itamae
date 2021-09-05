@@ -1,0 +1,25 @@
+xbuild:
+  path: "/home/isucon/xbuild"
+
+ruby:
+  # version: 3.0.2
+  binary: "/home/isucon/local/ruby/bin/ruby"
+
+gem:
+  binary: "/home/isucon/local/ruby/bin/gem"
+  # install:
+  #   - stackprof-webnav
+
+git_global_config:
+  user.email: "foo@example.com"
+  user.name:  "foo"
+
+packages:
+  - git
+  - wget
+
+services:
+  enabled:
+  disabled:
+
+docker: true

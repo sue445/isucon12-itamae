@@ -66,3 +66,39 @@ task :print_public_keys do
 
   puts public_keys.join("\n")
 end
+
+def itamae_container_name
+  @itamae_container_name ||= `docker ps`.each_line.find { |line| line.include?("isucon-itamae_app_1") }.split(" ")[0]
+end
+
+namespace :test do
+  desc "Boot container"
+  task :boot do
+    sh " docker-compose up --build -d"
+  end
+
+  desc "Run itamae"
+  task :itamae do
+    raise "Not found isucon-itamae_app_1" unless itamae_container_name
+
+    command = [
+      "itamae",
+      "docker",
+      "--container", itamae_container_name,
+      "--tag", "itamae:latest",
+      "--tmp-dir", "/var/tmp/itamae_tmp",
+      "--node-yaml", "test/node.yml",
+      "cookbooks/default.rb"
+    ]
+    sh command.join(" ")
+  end
+
+  desc "Clean a docker container for test"
+  task :clean do
+    if itamae_container_name
+      sh "docker rm -f #{itamae_container_name}"
+    end
+  end
+end
+
+task :test => ["test:boot", "test:itamae", "test:clean"]
