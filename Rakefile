@@ -74,7 +74,7 @@ end
 namespace :test do
   desc "Boot container"
   task :boot do
-    sh " docker-compose up --build -d"
+    sh "docker-compose up --build -d"
   end
 
   desc "Run itamae"
