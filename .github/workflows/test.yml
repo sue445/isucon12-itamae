@@ -29,7 +29,7 @@ jobs:
           ruby-version: 3.0
           bundler-cache: true
 
-      - run: docker build ./dockerfiles --file ${DOCKERFILE}.dockerfile --tag isucon-itamae:latest
+      - run: docker build --file dockerfiles/${DOCKERFILE}.dockerfile --tag isucon-itamae:latest .
         env:
           DOCKERFILE: ${{ matrix.dockerfile }}
 
