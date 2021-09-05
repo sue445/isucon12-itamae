@@ -1,0 +1,10 @@
+version: "3"
+
+services:
+  app:
+    build:
+      context: ./dockerfiles
+      dockerfile: ubuntu-focal.dockerfile
+    privileged: true
+    command:
+      - "/sbin/init"
