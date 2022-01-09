@@ -12,12 +12,15 @@ def run_itamae(hostname:, ip_address:, dry_run:)
       f.write(node.to_yaml)
     end
 
+    log_level = ENV["LOG_LEVEL"] || "info"
+
     command = [
       "itamae",
       "ssh",
       "--user", "isucon",
       "--host", ip_address,
       "--node-yaml", node_yaml,
+      "--log-level", log_level,
       "cookbooks/default.rb"
     ]
 
