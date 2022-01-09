@@ -27,14 +27,14 @@ packages:
 # NOTE: `sudo systemctl list-unit-files --type=service | grep isu` などで調べる
 services:
   enabled:
-    - isucondition.ruby.service
+    # - isucondition.ruby.service
   disabled:
-    - isucondition.go.service
-    - isucondition.nodejs.service
-    - isucondition.perl.service
-    - isucondition.php.service
-    - isucondition.python.service
-    - isucondition.rust.service
+    # - isucondition.go.service
+    # - isucondition.nodejs.service
+    # - isucondition.perl.service
+    # - isucondition.php.service
+    # - isucondition.python.service
+    # - isucondition.rust.service
 
     # インストールはするが実際に使うまでサービスは止めておく
     - redis-server
