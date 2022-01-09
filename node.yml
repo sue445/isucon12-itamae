@@ -40,4 +40,4 @@ services:
     - redis-server
     - memcached
 
-newrelic: true
+newrelic: false
