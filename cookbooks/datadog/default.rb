@@ -33,3 +33,11 @@ file "/etc/datadog-agent/datadog.yaml" do
 
   notifies :restart, "service[datadog-agent]"
 end
+
+remote_file "/etc/datadog-agent/conf.d/mysql.d/conf.yaml" do
+  owner "dd-agent"
+  group "dd-agent"
+  mode  "644"
+
+  notifies :restart, "service[datadog-agent]"
+end
