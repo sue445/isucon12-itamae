@@ -5,6 +5,33 @@ ISUCONの環境構築用Itamae
 
 ## Requirements
 * isuconユーザでsshできるようにしておく
+* 下記のような `~/.ssh/config` を作っておく
+
+```
+Host isucon-01
+  Hostname xx.xx.xx.xx
+  Port 22
+  User isucon
+  ForwardAgent yes
+
+Host isucon-02
+  Hostname xx.xx.xx.xx
+  Port 22
+  User isucon
+  ForwardAgent yes
+
+Host isucon-03
+  Hostname xx.xx.xx.xx
+  Port 22
+  User isucon
+  ForwardAgent yes
+
+Host isucon-bench
+  Hostname xx.xx.xx.xx
+  Port 22
+  User isucon
+  ForwardAgent yes
+```
 
 ## Setup
 ```bash
