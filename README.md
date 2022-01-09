@@ -36,6 +36,8 @@ Host isucon-bench
 ## Setup
 ```bash
 bundle install
+cp .env.example .env
+vi .env
 ```
 
 ## Config
