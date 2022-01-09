@@ -40,7 +40,7 @@ instances:
     ## @param password - string - optional
     ## Password associated to the MySQL user.
     #
-    password: <PASSWORD>
+    password: datadog
 
     ## @param port - number - optional - default: 3306
     ## Port to use when connecting to MySQL.
