@@ -50,6 +50,9 @@ datadog:
   install_only: false
   upgrade: false
 
+  integration:
+    datadog-puma: 1.1.0 # https://github.com/DataDog/integrations-extras/blob/master/puma/CHANGELOG.md
+
 mysql:
   slow_query_log_file: /var/log/mysql/slow.log
   long_query_time: "0.5"
