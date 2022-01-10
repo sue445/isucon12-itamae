@@ -31,6 +31,18 @@ file "/etc/datadog-agent/datadog.yaml" do
       # tagsがなければ末尾に追加する
       content << tags_yaml
     end
+
+    logs_enabled_yaml = <<~YAML
+      logs_enabled: true
+    YAML
+
+    if content.match?(/^logs_enabled:/)
+      # logs_enabledがあれば書き換える
+      content.gsub!(/^logs_enabled: .+$/, logs_enabled_yaml.strip)
+    else
+      # logs_enabledがなければ末尾に追加する
+      content << logs_enabled_yaml
+    end
   end
 
   only_if "ls /etc/datadog-agent/datadog.yaml"
