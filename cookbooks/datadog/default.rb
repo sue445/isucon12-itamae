@@ -1,15 +1,17 @@
-require "dotenv/load"
-
-node[:datadog][:api_key] = ENV["DD_API_KEY"]
-
-include_recipe "datadog::install"
+if node[:datadog]
+  include_recipe "./enabled"
+else
+  include_recipe "./disabled"
+end
 
 service "datadog-agent" do
-  action [:start, :enable]
+  action :nothing
 end
 
 file "/etc/datadog-agent/datadog.yaml" do
   mode "644"
+
+  only_if "ls /etc/datadog-agent/datadog.yaml"
 end
 
 file "/etc/datadog-agent/datadog.yaml" do
@@ -31,13 +33,23 @@ file "/etc/datadog-agent/datadog.yaml" do
     end
   end
 
+  only_if "ls /etc/datadog-agent/datadog.yaml"
+
   notifies :restart, "service[datadog-agent]"
 end
 
-remote_file "/etc/datadog-agent/conf.d/mysql.d/conf.yaml" do
-  owner "dd-agent"
-  group "dd-agent"
-  mode  "644"
+%w(
+  /etc/datadog-agent/conf.d/mysql.d/
+).each do |name|
+  directory name do
+    mode "755"
+  end
+end
 
-  notifies :restart, "service[datadog-agent]"
+template "/etc/datadog-agent/conf.d/mysql.d/conf.yaml" do
+  mode "644"
+
+  if node[:datadog]
+    notifies :restart, "service[datadog-agent]"
+  end
 end
