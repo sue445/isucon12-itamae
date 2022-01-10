@@ -24,7 +24,7 @@ services:
 
 mysql:
   slow_query_log_file: /var/log/mysql/slow.log
-  long_query_time: "0.0"
+  long_query_time: "0.5"
 
 # テスト用
 docker: true

@@ -28,6 +28,28 @@ end
   end
 end
 
+# DatadogからMySQLのログにアクセスできるようにする
+# c.f. https://docs.datadoghq.com/ja/integrations/mysql/?tab=host
+%w(
+  /etc/mysql/conf.d/mysqld_safe_syslog.cnf
+  /etc/mysql/mariadb.conf.d/50-mysqld_safe.cnf
+).each do |name|
+  file name do
+    action :delete
+    notifies :restart, "service[mysql]"
+  end
+end
+
+directory "/var/log/mysql/" do
+  mode "2755"
+end
+
+%w(error slow).each do |name|
+  file "/var/log/mysql/#{name}.log" do
+    mode "664"
+  end
+end
+
 template "/etc/mysql/conf.d/isucon.cnf" do
   mode  "644"
   owner "root"
