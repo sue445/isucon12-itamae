@@ -1,15 +1,13 @@
+execute "systemctl daemon-reload" do
+  action :nothing
+end
+
+service "mysql" do
+  action :nothing
+end
+
 # LimitNOFILEが設定されていないとmax_connectionsが増やせないので増やす
 %w(mysql mariadb).each do |name|
-  execute "systemctl daemon-reload" do
-    subscribes :run, "file[/lib/systemd/system/#{name}.service]", :immediately
-    action :nothing
-  end
-
-  service "mysql" do
-    subscribes :restart, "file[/lib/systemd/system/#{name}.service]", :immediately
-    action :nothing
-  end
-
   file "/lib/systemd/system/#{name}.service" do
     action :edit
 
@@ -24,7 +22,23 @@
     end
 
     only_if "ls /lib/systemd/system/#{name}.service"
+
+    notifies :run, "execute[systemctl daemon-reload]"
+    notifies :restart, "service[mysql]"
   end
+end
+
+template "/etc/mysql/conf.d/isucon.cnf" do
+  mode  "644"
+  owner "root"
+  group "root"
+
+  variables(
+    slow_query_log_file: node.dig(:mysql, :slow_query_log_file),
+    long_query_time: node.dig(:mysql, :long_query_time),
+  )
+
+  notifies :restart, "service[mysql]"
 end
 
 # Datadogで使うmysqlのユーザを作成する
@@ -46,14 +60,8 @@ mysql_command "CREATE USER 'datadog'@'localhost' IDENTIFIED BY 'datadog'" do
   expected_response "datadog"
 end
 
-result = run_command("mysql --version")
-mysql_full_version = result.stdout
-
-mysql_full_version =~ /Ver (\d+)/
-mysql_short_version = Regexp.last_match(1).to_i
-
-if mysql_full_version.include?("MariaDB") || mysql_short_version < 8
-  # MariaDB or MySQL 8未満の場合
+if node[:mysql][:short_version] < 8.0
+  # MySQL 8未満の場合
   mysql_command "GRANT REPLICATION CLIENT ON *.* TO 'datadog'@'localhost' WITH MAX_USER_CONNECTIONS 5" do
     check_command     "SELECT Repl_client_priv FROM mysql.user WHERE user = 'datadog' AND host = 'localhost'"
     expected_response "Y"

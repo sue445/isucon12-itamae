@@ -1,0 +1,10 @@
+[mysqld]
+
+<% if @slow_query_log_file && @long_query_time %>
+# Enable the slow query log to see queries with especially long duration
+slow_query_log_file    = <%= @slow_query_log_file %>
+long_query_time        = <%= @long_query_time %>
+#log_slow_rate_limit    = 1000
+#log_slow_verbosity     = query_plan
+#log-queries-not-using-indexes
+<% end %>
