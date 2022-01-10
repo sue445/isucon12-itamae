@@ -20,6 +20,7 @@ jobs:
       matrix:
         dockerfile:
           - ubuntu-focal
+          - ubuntu-focal-mariadb
 
     steps:
       - uses: actions/checkout@v2
