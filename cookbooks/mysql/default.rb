@@ -1,15 +1,13 @@
+execute "systemctl daemon-reload" do
+  action :nothing
+end
+
+service "mysql" do
+  action :nothing
+end
+
 # LimitNOFILEが設定されていないとmax_connectionsが増やせないので増やす
 %w(mysql mariadb).each do |name|
-  execute "systemctl daemon-reload" do
-    subscribes :run, "file[/lib/systemd/system/#{name}.service]", :immediately
-    action :nothing
-  end
-
-  service "mysql" do
-    subscribes :restart, "file[/lib/systemd/system/#{name}.service]", :immediately
-    action :nothing
-  end
-
   file "/lib/systemd/system/#{name}.service" do
     action :edit
 
@@ -24,6 +22,9 @@
     end
 
     only_if "ls /lib/systemd/system/#{name}.service"
+
+    notifies :run, "execute[systemctl daemon-reload]"
+    notifies :restart, "service[mysql]"
   end
 end
 
