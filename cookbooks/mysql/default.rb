@@ -33,6 +33,11 @@ template "/etc/mysql/conf.d/isucon.cnf" do
   owner "root"
   group "root"
 
+  variables(
+    slow_query_log_file: node.dig(:mysql, :slow_query_log_file),
+    long_query_time: node.dig(:mysql, :long_query_time),
+  )
+
   notifies :restart, "service[mysql]"
 end
 

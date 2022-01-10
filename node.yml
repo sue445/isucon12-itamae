@@ -47,3 +47,7 @@ datadog:
   # api_key: xxxxxx
   install_only: false
   upgrade: false
+
+mysql:
+  slow_query_log_file: /var/log/mysql/slow.log
+  long_query_time: "0.0"
