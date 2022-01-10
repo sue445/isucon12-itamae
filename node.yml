@@ -56,3 +56,7 @@ datadog:
 mysql:
   slow_query_log_file: /var/log/mysql/slow.log
   long_query_time: "0.5"
+
+puma:
+  control_url:   http://127.0.0.1:9293
+  control_token: datadog
