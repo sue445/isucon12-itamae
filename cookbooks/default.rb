@@ -1,13 +1,10 @@
 include_recipe "./system"
 include_recipe "./user"
 include_recipe "./mysql"
+include_recipe "./datadog"
 
 if node[:newrelic]
   include_recipe "./newrelic"
-end
-
-if node[:datadog]
-  include_recipe "./datadog"
 end
 
 # NOTE: ベンチマークサーバではrubyは不要
