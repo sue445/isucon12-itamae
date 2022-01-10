@@ -1,16 +1,30 @@
 # LimitNOFILEが設定されていないとmax_connectionsが増やせないので増やす
-file "/lib/systemd/system/mysql.service" do
-  action :edit
-
-  block do |content|
-    unless content.include?("LimitNOFILE=")
-      content.gsub!(/^\[Service\]/, "[Service]\nLimitNOFILE=65535")
-    end
-
-    content.gsub!(/^LimitNOFILE=.+$/, "LimitNOFILE=65535")
+%w(mysql mariadb).each do |name|
+  execute "systemctl daemon-reload" do
+    subscribes :run, "file[/lib/systemd/system/#{name}.service]", :immediately
+    action :nothing
   end
 
-  only_if "ls /lib/systemd/system/mysql.service"
+  service "mysql" do
+    subscribes :restart, "file[/lib/systemd/system/#{name}.service]", :immediately
+    action :nothing
+  end
+
+  file "/lib/systemd/system/#{name}.service" do
+    action :edit
+
+    limit_no_file = 65535
+
+    block do |content|
+      unless content.include?("LimitNOFILE=")
+        content.gsub!(/^\[Service\]/, "[Service]\nLimitNOFILE=#{limit_no_file}")
+      end
+
+      content.gsub!(/^LimitNOFILE=.+$/, "LimitNOFILE=#{limit_no_file}")
+    end
+
+    only_if "ls /lib/systemd/system/#{name}.service"
+  end
 end
 
 # Datadogで使うmysqlのユーザを作成する
