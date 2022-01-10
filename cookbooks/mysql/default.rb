@@ -27,6 +27,14 @@
   end
 end
 
+template "/etc/mysql/conf.d/isucon.cnf" do
+  mode  "644"
+  owner "root"
+  group "root"
+
+  notifies :restart, "service[mysql]"
+end
+
 # Datadogで使うmysqlのユーザを作成する
 # c.f. https://docs.datadoghq.com/ja/integrations/mysql/
 
