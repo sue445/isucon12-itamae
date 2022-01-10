@@ -500,14 +500,14 @@ logs:
     source: mysql
     service: "isucon"
 
-<% if node[:mysql][:slow_query_log_file] %>
+<% if @slow_query_log_file %>
   - type: file
-    path: "<%= node[:mysql][:slow_query_log_file] %>"
+    path: "<%= @slow_query_log_file %>"
     source: mysql
     service: "isucon"
     log_processing_rules:
 
-<% if node[:mysql][:short_version] < 5.7 %>
+<% if @short_version < 5.7 %>
       - type: multi_line
         name: new_slow_query_log_entry
         pattern: "# Time|# User@Host"
