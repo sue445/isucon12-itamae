@@ -61,6 +61,11 @@ end
 template "/etc/datadog-agent/conf.d/mysql.d/conf.yaml" do
   mode "644"
 
+  variables(
+    slow_query_log_file: node[:mysql][:slow_query_log_file],
+    short_version:       node[:mysql][:short_version],
+  )
+
   if node[:datadog]
     notifies :restart, "service[datadog-agent]"
   end
