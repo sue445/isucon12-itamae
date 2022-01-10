@@ -51,10 +51,11 @@ file "/etc/datadog-agent/datadog.yaml" do
 end
 
 %w(
-  /etc/datadog-agent/conf.d/mysql.d/
-  /etc/datadog-agent/conf.d/puma.d/
+  mysql.d
+  process.d
+  puma.d
 ).each do |name|
-  directory name do
+  directory "/etc/datadog-agent/conf.d/#{name}/" do
     mode "755"
   end
 end
@@ -66,6 +67,14 @@ template "/etc/datadog-agent/conf.d/mysql.d/conf.yaml" do
     slow_query_log_file: node[:mysql][:slow_query_log_file],
     short_version:       node[:mysql][:short_version],
   )
+
+  if node[:datadog]
+    notifies :restart, "service[datadog-agent]"
+  end
+end
+
+template "/etc/datadog-agent/conf.d/process.d/conf.yaml" do
+  mode "644"
 
   if node[:datadog]
     notifies :restart, "service[datadog-agent]"

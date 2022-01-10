@@ -42,7 +42,7 @@ instances:
   ## @param name - string - required
   ## Used to uniquely identify your metrics as they are tagged with this name in Datadog.
   #
-  - name: <NAME>
+  - name: puma_worker
 
     ## @param search_string - list of strings - optional
     ## If one of the elements in the list matches, it return the count of
@@ -54,6 +54,8 @@ instances:
     # search_string:
     #   - <SEARCH_STRING_1>
     #   - <SEARCH_STRING_2>
+    search_string:
+      - "^puma: cluster worker.*"
 
     ## @param pid - integer - optional
     ## A Process id to match.
@@ -81,6 +83,7 @@ instances:
     ## https://docs.datadoghq.com/integrations/process/#configuration
     #
     # exact_match: true
+    exact_match: false
 
     ## @param ignore_denied_access - boolean - optional - default: true
     ## When getting the number of files descriptors, dd-agent user might
@@ -132,6 +135,8 @@ instances:
     # tags:
     #   - <KEY_1>:<VALUE_1>
     #   - <KEY_2>:<VALUE_2>
+    tags:
+      - "source:puma_worker"
 
     ## @param service - string - optional
     ## Attach the tag `service:<SERVICE>` to every metric, event, and service check emitted by this integration.
