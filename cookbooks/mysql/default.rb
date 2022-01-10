@@ -6,6 +6,9 @@ service "mysql" do
   action :nothing
 end
 
+# FIXME: GitHub ActionsのDockerだとread timeout reached (Docker::Error::TimeoutError)になるためDockerでは再起動を抑制する
+enable_mysql_restart = !node[:docker]
+
 # LimitNOFILEが設定されていないとmax_connectionsが増やせないので増やす
 %w(mysql mariadb).each do |name|
   file "/lib/systemd/system/#{name}.service" do
@@ -24,7 +27,10 @@ end
     only_if "ls /lib/systemd/system/#{name}.service"
 
     notifies :run, "execute[systemctl daemon-reload]"
-    notifies :restart, "service[mysql]"
+
+    if enable_mysql_restart
+      notifies :restart, "service[mysql]"
+    end
   end
 end
 
@@ -36,7 +42,10 @@ end
 ).each do |name|
   file name do
     action :delete
-    notifies :restart, "service[mysql]"
+
+    if enable_mysql_restart
+      notifies :restart, "service[mysql]"
+    end
   end
 end
 
@@ -60,7 +69,9 @@ template "/etc/mysql/conf.d/isucon.cnf" do
     long_query_time: node.dig(:mysql, :long_query_time),
   )
 
-  notifies :restart, "service[mysql]"
+  if enable_mysql_restart
+    notifies :restart, "service[mysql]"
+  end
 end
 
 # Datadogで使うmysqlのユーザを作成する
