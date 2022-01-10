@@ -59,9 +59,9 @@ result = run_command("mysql --version")
 mysql_full_version = result.stdout
 
 mysql_full_version =~ /Ver (\d+)/
-mysql_short_version = Regexp.last_match(1).to_i
+mysql_major_version = Regexp.last_match(1).to_i
 
-if mysql_full_version.include?("MariaDB") || mysql_short_version < 8
+if mysql_full_version.include?("MariaDB") || mysql_major_version < 8
   # MariaDB or MySQL 8未満の場合
   mysql_command "GRANT REPLICATION CLIENT ON *.* TO 'datadog'@'localhost' WITH MAX_USER_CONNECTIONS 5" do
     check_command     "SELECT Repl_client_priv FROM mysql.user WHERE user = 'datadog' AND host = 'localhost'"
