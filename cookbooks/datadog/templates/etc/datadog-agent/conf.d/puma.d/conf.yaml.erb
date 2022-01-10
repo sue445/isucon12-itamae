@@ -48,7 +48,7 @@ instances:
   ## @param control_url - string - required
   ## Control URL for your Puma instance
   #
-  - control_url: '<%= @control_url %>/stats?token=<%= @control_token %>'
+  - control_url: '<%= node[:puma][:control_url] %>/stats?token=<%= node[:puma][:control_token] %>'
 
     ## @param proxy - mapping - optional
     ## This overrides the `proxy` setting in `init_config`.
