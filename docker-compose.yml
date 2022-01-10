@@ -4,7 +4,7 @@ services:
   app:
     build:
       context: ./dockerfiles
-      dockerfile: ubuntu-focal.dockerfile
+      dockerfile: ubuntu-focal-mysql.dockerfile
     privileged: true
     command:
       - "/sbin/init"

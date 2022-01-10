@@ -19,7 +19,7 @@ jobs:
 
       matrix:
         dockerfile:
-          - ubuntu-focal
+          - ubuntu-focal-mysql
           - ubuntu-focal-mariadb
 
     steps:
