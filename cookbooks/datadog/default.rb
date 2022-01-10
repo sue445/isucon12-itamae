@@ -46,7 +46,7 @@ end
   end
 end
 
-remote_file "/etc/datadog-agent/conf.d/mysql.d/conf.yaml" do
+template "/etc/datadog-agent/conf.d/mysql.d/conf.yaml" do
   mode "644"
 
   if node[:datadog]
