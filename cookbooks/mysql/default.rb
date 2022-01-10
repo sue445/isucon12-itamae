@@ -60,14 +60,8 @@ mysql_command "CREATE USER 'datadog'@'localhost' IDENTIFIED BY 'datadog'" do
   expected_response "datadog"
 end
 
-result = run_command("mysql --version")
-mysql_full_version = result.stdout
-
-mysql_full_version =~ /Ver (\d+)/
-mysql_major_version = Regexp.last_match(1).to_i
-
-if mysql_full_version.include?("MariaDB") || mysql_major_version < 8
-  # MariaDB or MySQL 8未満の場合
+if node[:mysql][:short_version] < 8.0
+  # MySQL 8未満の場合
   mysql_command "GRANT REPLICATION CLIENT ON *.* TO 'datadog'@'localhost' WITH MAX_USER_CONNECTIONS 5" do
     check_command     "SELECT Repl_client_priv FROM mysql.user WHERE user = 'datadog' AND host = 'localhost'"
     expected_response "Y"
