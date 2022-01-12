@@ -1,3 +1,9 @@
+package "nginx"
+
+service "nginx" do
+  action [:start, :enable]
+end
+
 execute "nginx -t && systemctl restart nginx" do
   action :nothing
 end
