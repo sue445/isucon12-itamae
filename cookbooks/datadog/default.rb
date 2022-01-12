@@ -52,6 +52,7 @@ end
 
 %w(
   mysql.d
+  nginx.d
   process.d
   puma.d
 ).each do |name|
