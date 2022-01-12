@@ -432,10 +432,10 @@ instances:
 ##
 ## Discover Datadog log collection: https://docs.datadoghq.com/logs/log_collection/
 #
-# logs:
-#   - type: file
-#     path: /var/log/nginx/access.log
-#     source: nginx
-#   - type: file
-#     path: /var/log/nginx/error.log
-#     source: nginx
+logs:
+  - type: file
+    path: /var/log/nginx/access.log
+    source: nginx
+  - type: file
+    path: /var/log/nginx/error.log
+    source: nginx
