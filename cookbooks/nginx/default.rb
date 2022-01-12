@@ -3,6 +3,7 @@ execute "nginx -t && systemctl restart nginx" do
 end
 
 %w(
+  log_format_datadog.conf
   nginx_status.conf
 ).each do |file|
   remote_file "/etc/nginx/conf.d/#{file}" do
