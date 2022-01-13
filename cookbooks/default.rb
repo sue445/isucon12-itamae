@@ -3,6 +3,7 @@ include_recipe "./system"
 include_recipe "./user"
 include_recipe "./mysql"
 include_recipe "./nginx"
+include_recipe "./fluentd"
 
 # NOTE: ベンチマークサーバでは不要
 unless node[:hostname].include?("bench")
