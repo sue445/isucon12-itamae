@@ -37,6 +37,8 @@ jobs:
       - run: docker run --privileged -d --name isucon-itamae_app_1 isucon-itamae:latest /sbin/init
 
       - run: bundle exec rake test:itamae
+        env:
+          LOG_LEVEL: debug
 
       - run: bundle exec rake test:clean
         if: always()

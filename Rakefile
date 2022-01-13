@@ -84,6 +84,8 @@ namespace :test do
   task :itamae do
     raise "Not found isucon-itamae_app_1" unless itamae_container_name
 
+    log_level = ENV["LOG_LEVEL"] || "info"
+
     command = [
       "itamae",
       "docker",
@@ -91,6 +93,7 @@ namespace :test do
       "--tag", "itamae:latest",
       "--tmp-dir", "/var/tmp/itamae_tmp",
       "--node-yaml", "test/node.yml",
+      "--log-level", log_level,
       "cookbooks/default.rb"
     ]
     sh command.join(" ")
