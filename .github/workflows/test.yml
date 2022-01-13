@@ -38,7 +38,7 @@ jobs:
 
       - run: bundle exec rake test:itamae
         env:
-          LOG_LEVEL: debug
+          LOG_LEVEL: info
 
       - run: bundle exec rake test:clean
         if: always()
