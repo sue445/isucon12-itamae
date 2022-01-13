@@ -1,11 +1,10 @@
 include_recipe "./install-td-agent"
 
-[
-  "fluent-plugin-dogstatsd",
-  "fluent-plugin-flowcounter",
-  "fluent-plugin-record-reformer",
-  # "fluent-plugin-typecast", # 最新で動かないので
-].each do |name|
+%w(
+  fluent-plugin-dogstatsd
+  fluent-plugin-flowcounter
+  fluent-plugin-record-reformer
+).each do |name|
   gem_package name do
     gem_binary "td-agent-gem"
     options %w(--no-doc)
