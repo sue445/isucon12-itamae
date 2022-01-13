@@ -10,6 +10,7 @@ end
 
 %w(
   log_format_datadog.conf
+  log_format_ltsv.conf
   nginx_status.conf
 ).each do |file|
   remote_file "/etc/nginx/conf.d/#{file}" do
