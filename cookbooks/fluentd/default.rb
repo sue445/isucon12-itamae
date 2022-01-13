@@ -13,15 +13,10 @@ service "td-agent" do
   action :nothing
 end
 
-# FIXME: GitHub ActionsのDockerだとなぜかtd-agentが起動できないのでDockerでは再起動を抑制する
-enable_tdagent_restart = !node[:docker]
-
 template "/etc/td-agent/td-agent.conf" do
   owner "root"
   group "root"
   mode  "644"
 
-  if enable_tdagent_restart
-    notifies :restart, "service[td-agent]"
-  end
+  notifies :restart, "service[td-agent]"
 end
