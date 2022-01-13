@@ -12,7 +12,3 @@ when "ubuntu"
 else
   raise NotImplementedError, "Platform '#{node[:platform]}' is not supported by fluentd/td-agent yet"
 end
-
-service "td-agent" do
-  action [:start, :enable]
-end
