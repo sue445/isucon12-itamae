@@ -62,6 +62,18 @@ file "/etc/datadog-agent/datadog.yaml" do
   notifies :restart, "service[datadog-agent]"
 end
 
+directory "/etc/datadog-agent/" do
+  mode "755"
+end
+
+template "/etc/datadog-agent/datadog.yaml" do
+  mode "644"
+
+  if node[:datadog]
+    notifies :restart, "service[datadog-agent]"
+  end
+end
+
 %w(
   mysql.d
   nginx.d
