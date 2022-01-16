@@ -21,3 +21,13 @@ end
     notifies :run, "execute[nginx -t && systemctl restart nginx]"
   end
 end
+
+%w(
+  access.log
+  access_ltsv.log
+  error.log
+).each do |name|
+  file "/var/log/nginx/#{name}" do
+    mode "644"
+  end
+end
