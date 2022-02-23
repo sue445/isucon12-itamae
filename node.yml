@@ -2,7 +2,7 @@ xbuild:
   path: "/home/isucon/xbuild"
 
 ruby:
-  version: 3.0.2
+  version: 3.1.1
   binary: "/home/isucon/local/ruby/bin/ruby"
 
 gem:
