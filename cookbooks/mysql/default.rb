@@ -138,7 +138,21 @@ end
 execute_sql_file "create_datadog_schema.sql"
 execute_sql_file "create_datadog_explain_statement.sql"
 
-isucon_schemas = find_by_sql("SELECT schema_name from information_schema.schemata where schema_name LIKE 'isu%'")
-pp isucon_schemas
+isucon_schemas = find_by_sql("SELECT schema_name from information_schema.schemata where schema_name LIKE 'isu%'").flatten
+isucon_schemas.each do |schema_name|
+  template "/etc/isucon-itamae/create_datadog_explain_statement_by_#{schema_name}.sql" do
+    source "templates/etc/isucon-itamae/create_datadog_explain_statement_by_schema.sql.erb"
+
+    mode  "644"
+    owner "root"
+    group "root"
+
+    variables(
+      schema_name: schema_name,
+    )
+  end
+
+  execute_sql_file "create_datadog_explain_statement_by_#{schema_name}.sql"
+end
 
 execute_sql_file "create_datadog_enable_events_statements_consumers.sql"
