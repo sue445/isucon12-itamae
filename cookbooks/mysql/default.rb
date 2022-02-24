@@ -91,7 +91,7 @@ define :mysql_command, check_command: nil, expected_response: nil do
   end
 end
 
-define :execute_sql do
+define :execute_sql_file do
   execute "mysql < /etc/isucon-itamae/#{params[:name]}"
 end
 
@@ -116,11 +116,11 @@ end
 end
 
 if node[:mysql][:short_version] >= 8.0
-  execute_sql "create_datadog_user_mysql_8.0.sql"
+  execute_sql_file "create_datadog_user_mysql_8.0.sql"
 else
-  execute_sql "create_datadog_user_mysql_5.7.sql"
+  execute_sql_file "create_datadog_user_mysql_5.7.sql"
 end
 
-execute_sql "create_datadog_schema.sql"
-execute_sql "create_datadog_explain_statement.sql"
-execute_sql "create_datadog_enable_events_statements_consumers.sql"
+execute_sql_file "create_datadog_schema.sql"
+execute_sql_file "create_datadog_explain_statement.sql"
+execute_sql_file "create_datadog_enable_events_statements_consumers.sql"
