@@ -67,6 +67,7 @@ template "/etc/mysql/conf.d/isucon.cnf" do
   variables(
     slow_query_log_file: node.dig(:mysql, :slow_query_log_file),
     long_query_time: node.dig(:mysql, :long_query_time),
+    mysql_short_version: node[:mysql][:short_version],
   )
 
   if enable_mysql_restart
@@ -75,7 +76,9 @@ template "/etc/mysql/conf.d/isucon.cnf" do
 end
 
 # Datadogで使うmysqlのユーザを作成する
-# c.f. https://docs.datadoghq.com/ja/integrations/mysql/
+# c.f.
+# * https://docs.datadoghq.com/ja/integrations/mysql/
+# * https://docs.datadoghq.com/ja/database_monitoring/setup_mysql/selfhosted/
 
 define :mysql_command, check_command: nil, expected_response: nil do
   check_command = params[:check_command]
@@ -88,26 +91,36 @@ define :mysql_command, check_command: nil, expected_response: nil do
   end
 end
 
-mysql_command "CREATE USER 'datadog'@'localhost' IDENTIFIED BY 'datadog'" do
-  check_command     "SELECT user FROM mysql.user WHERE user = 'datadog' AND host = 'localhost'"
-  expected_response "datadog"
+define :execute_sql do
+  execute "mysql < /etc/isucon-itamae/#{params[:name]}"
 end
 
-if node[:mysql][:short_version] < 8.0
-  # MySQL 8未満の場合
-  mysql_command "GRANT REPLICATION CLIENT ON *.* TO 'datadog'@'localhost' WITH MAX_USER_CONNECTIONS 5" do
-    check_command     "SELECT Repl_client_priv FROM mysql.user WHERE user = 'datadog' AND host = 'localhost'"
-    expected_response "Y"
-  end
+directory "/etc/isucon-itamae/" do
+  mode  "755"
+  owner "root"
+  group "root"
+end
 
-  mysql_command "GRANT PROCESS ON *.* TO 'datadog'@'localhost'" do
-    check_command     "SELECT Process_priv FROM mysql.user WHERE user = 'datadog' AND host = 'localhost'"
-    expected_response "Y"
+%w(
+  create_datadog_enable_events_statements_consumers.sql
+  create_datadog_explain_statement.sql
+  create_datadog_schema.sql
+  create_datadog_user_mysql_5.7.sql
+  create_datadog_user_mysql_8.0.sql
+).each do |file|
+  remote_file "/etc/isucon-itamae/#{file}" do
+    mode  "644"
+    owner "root"
+    group "root"
   end
+end
+
+if node[:mysql][:short_version] >= 8.0
+  execute_sql "create_datadog_user_mysql_8.0.sql"
 else
-  # MySQL 8以上の場合
-  mysql_command "ALTER USER 'datadog'@'localhost' WITH MAX_USER_CONNECTIONS 5" do
-    check_command     "SELECT max_user_connections FROM mysql.user WHERE user = 'datadog' AND host = 'localhost'"
-    expected_response "5"
-  end
+  execute_sql "create_datadog_user_mysql_5.7.sql"
 end
+
+execute_sql "create_datadog_schema.sql"
+execute_sql "create_datadog_explain_statement.sql"
+execute_sql "create_datadog_enable_events_statements_consumers.sql"
