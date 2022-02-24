@@ -1,0 +1,13 @@
+DROP PROCEDURE IF EXISTS <%= @schema_name %>.explain_statement;
+
+DELIMITER $$
+CREATE PROCEDURE <%= @schema_name %>.explain_statement(IN query TEXT)
+    SQL SECURITY DEFINER
+BEGIN
+    SET @explain := CONCAT('EXPLAIN FORMAT=json ', query);
+    PREPARE stmt FROM @explain;
+    EXECUTE stmt;
+    DEALLOCATE PREPARE stmt;
+    END $$
+DELIMITER ;
+GRANT EXECUTE ON PROCEDURE <%= @schema_name %>.explain_statement TO 'datadog'@'localhost';
