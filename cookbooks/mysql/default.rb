@@ -102,6 +102,7 @@ directory "/etc/isucon-itamae/" do
 end
 
 %w(
+  create_datadog_explain_statement.sql
   create_datadog_schema.sql
   create_datadog_user_mysql_5.7.sql
   create_datadog_user_mysql_8.0.sql
@@ -120,3 +121,4 @@ else
 end
 
 execute_sql "create_datadog_schema.sql"
+execute_sql "create_datadog_explain_statement.sql"
