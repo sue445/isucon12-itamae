@@ -95,6 +95,20 @@ define :execute_sql_file do
   execute "mysql < /etc/isucon-itamae/#{params[:name]}"
 end
 
+# クエリを実行した結果を取得する
+# @param sql
+# @return [Array<Array<String>>]
+def find_by_sql(sql)
+  result = run_command(%Q(mysql -B -N --execute="#{sql}"))
+  stdout = result.stdout.strip
+
+  rows = []
+  stdout.each_line do |row|
+    rows << row.split("\t")
+  end
+  rows
+end
+
 directory "/etc/isucon-itamae/" do
   mode  "755"
   owner "root"
@@ -123,4 +137,8 @@ end
 
 execute_sql_file "create_datadog_schema.sql"
 execute_sql_file "create_datadog_explain_statement.sql"
+
+isucon_schemas = find_by_sql("SELECT schema_name from information_schema.schemata where schema_name LIKE 'isu%'")
+pp isucon_schemas
+
 execute_sql_file "create_datadog_enable_events_statements_consumers.sql"
