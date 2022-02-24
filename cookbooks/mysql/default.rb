@@ -67,6 +67,7 @@ template "/etc/mysql/conf.d/isucon.cnf" do
   variables(
     slow_query_log_file: node.dig(:mysql, :slow_query_log_file),
     long_query_time: node.dig(:mysql, :long_query_time),
+    mysql_short_version: node[:mysql][:short_version],
   )
 
   if enable_mysql_restart
