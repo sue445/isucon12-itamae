@@ -102,6 +102,7 @@ directory "/etc/isucon-itamae/" do
 end
 
 %w(
+  create_datadog_schema.sql
   create_datadog_user_mysql_5.7.sql
   create_datadog_user_mysql_8.0.sql
 ).each do |file|
@@ -117,3 +118,5 @@ if node[:mysql][:short_version] >= 8.0
 else
   execute_sql "create_datadog_user_mysql_5.7.sql"
 end
+
+execute_sql "create_datadog_schema.sql"
