@@ -1033,7 +1033,7 @@ logs_enabled: true
 ## Uncomment this parameter and the one below to enable them.
 ## See https://docs.datadoghq.com/graphing/infrastructure/process/
 #
-# process_config:
+process_config:
 
   ## @param enabled - string - optional - default: "false"
   ## @env DD_PROCESS_CONFIG_ENABLED - string - optional - default: "false"
@@ -1042,7 +1042,7 @@ logs_enabled: true
   ##    * "true"     : The Agent collects containers and processes information.
   ##    * "disabled" : The Agent process collection is disabled.
   #
-  # enabled: "true"
+  enabled: "true"
 
   ## @param expvar_port - string - optional - default: 6062
   ## @env DD_PROCESS_CONFIG_EXPVAR_PORT - string - optional - default: 6062
