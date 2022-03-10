@@ -121,6 +121,7 @@ end
   create_datadog_schema.sql
   create_datadog_user_mysql_5.7.sql
   create_datadog_user_mysql_8.0.sql
+  create_isucon_user.sql
 ).each do |file|
   remote_file "/etc/isucon-itamae/#{file}" do
     mode  "644"
@@ -128,6 +129,8 @@ end
     group "root"
   end
 end
+
+execute_sql_file "create_isucon_user.sql"
 
 if node[:mysql][:short_version] >= 8.0
   execute_sql_file "create_datadog_user_mysql_8.0.sql"
