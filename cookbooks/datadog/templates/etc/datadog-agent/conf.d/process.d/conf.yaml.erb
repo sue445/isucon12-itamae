@@ -165,7 +165,7 @@ instances:
 
   - name: mysql
     search_string:
-      - "^/usr/sbin/mysqld$"
+      - ".*mysqld.*"
     exact_match: false
     user: mysql
 
@@ -177,4 +177,14 @@ instances:
   - name: redis
     search_string:
       - "^/usr/bin/redis-server .*"
+    exact_match: false
+
+  - name: nginx_worker
+    search_string:
+      - "nginx: worker process"
+    exact_match: true
+
+  - name: nginx_master
+    search_string:
+      - "^nginx: master process .*"
     exact_match: false
