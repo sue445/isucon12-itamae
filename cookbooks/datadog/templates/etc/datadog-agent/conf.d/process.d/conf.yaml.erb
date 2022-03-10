@@ -157,3 +157,24 @@ instances:
     ## This is useful for cluster-level checks.
     #
     # empty_default_hostname: false
+
+  - name: puma_master
+    search_string:
+      - "^puma: cluster .*"
+    exact_match: false
+
+  - name: mysql
+    search_string:
+      - "^/usr/sbin/mysqld$"
+    exact_match: false
+    user: mysql
+
+  - name: sidekiq
+    search_string:
+      - "^sidekiq .*"
+    exact_match: false
+
+  - name: redis
+    search_string:
+      - "^/usr/bin/redis-server .*"
+    exact_match: false
