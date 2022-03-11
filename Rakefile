@@ -71,7 +71,9 @@ task :print_public_keys do
 end
 
 def itamae_container_name
-  @itamae_container_name ||= `docker ps`.each_line.find { |line| line.include?("isucon-itamae_app_1") }&.split(" ")&.first
+  @itamae_container_name ||=
+    `docker ps`.each_line.
+      find { |line| %w(isucon-itamae_app_1 isucon-itamae-app-1).any?{ |name| line.include?(name) } }&.split(" ")&.first
 end
 
 namespace :test do
