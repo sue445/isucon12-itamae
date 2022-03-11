@@ -4,6 +4,29 @@ log_error = /var/log/mysql/error.log
 [mysqld]
 log_error = /var/log/mysql/error.log
 
+[mysqld]
+max_connections=3000
+
+# MySQL server has gone away対策
+max_allowed_packet = 1000M
+connect_timeout = 60
+
+# デフォルトが127.0.0.1なのを変える
+bind-address  = 0.0.0.0
+# mysqlx-bind-address = 0.0.0.0
+
+innodb_file_per_table = ON
+innodb_flush_method=O_DIRECT
+
+# 物理メモリの8割
+# innodb_buffer_pool_size = <%= @innodb_buffer_pool_size_mb %>M
+
+# innodb_buffer_pool_sizeの1/4程度
+# innodb_log_file_size = <%= @innodb_log_file_size_mb %>M
+
+# TODO: ログを止める場合はlog_errorもコメントアウトする
+# general-log = 0
+
 <% if @slow_query_log_file && @long_query_time %>
 # Enable the slow query log to see queries with especially long duration
 slow_query_log         = on

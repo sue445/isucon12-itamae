@@ -59,6 +59,14 @@ end
   end
 end
 
+total_memory_mb = node[:memory][:total].gsub(/kb$/i, "").to_i / 1024
+
+# 物理メモリの8割
+innodb_buffer_pool_size_mb = (total_memory_mb * 0.8).to_i
+
+# innodb_buffer_pool_sizeの1/4程度
+innodb_log_file_size_mb = innodb_buffer_pool_size_mb / 4
+
 template "/etc/mysql/conf.d/isucon.cnf" do
   mode  "644"
   owner "root"
@@ -68,6 +76,8 @@ template "/etc/mysql/conf.d/isucon.cnf" do
     slow_query_log_file: node.dig(:mysql, :slow_query_log_file),
     long_query_time: node.dig(:mysql, :long_query_time),
     mysql_short_version: node[:mysql][:short_version],
+    innodb_buffer_pool_size_mb: innodb_buffer_pool_size_mb,
+    innodb_log_file_size_mb: innodb_log_file_size_mb,
   )
 
   if enable_mysql_restart
