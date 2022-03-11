@@ -69,6 +69,15 @@ bundle exec rake print_public_keys
 
 の実行結果を https://github.com/settings/keys かデプロイ対象のリポジトリの `/settings/keys` に登録する
 
+### 特定のcookbookのみ適用する
+特定のcookbookのみItamaeを流したい場合は `COOKBOOK` を渡す（複数渡したい場合はカンマ区切り）
+
+例
+
+```bash
+COOKBOOK=datadog,mysql bundle exec rake itamae:host01:apply
+```
+
 ## Testing
 ```bash
 bundle exec rake test
