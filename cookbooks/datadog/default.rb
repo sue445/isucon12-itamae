@@ -25,6 +25,7 @@ end
   nginx.d
   process.d
   puma.d
+  redis.d
 ).each do |name|
   directory "/etc/datadog-agent/conf.d/#{name}/" do
     mode "755"
