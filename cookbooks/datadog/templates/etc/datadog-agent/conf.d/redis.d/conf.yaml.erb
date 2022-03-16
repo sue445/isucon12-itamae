@@ -95,6 +95,13 @@ instances:
     # keys:
     #   - <KEY_1>
     #   - <KEY_PATTERN>
+    keys:
+      # sidekiq keys
+      - "cron_job:*:enqueued"
+      - "processes"
+      - "queues"
+      - "stat:failed"
+      - "stat:processed"
 
     ## @param warn_on_missing_keys - boolean - optional - default: true
     ## If you provide a list of 'keys', set this to true to have the Agent log a warning
