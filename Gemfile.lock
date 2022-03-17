@@ -1,5 +1,6 @@
-PATH
-  remote: ../../speee/itamae-plugin-recipe-datadog
+GIT
+  remote: https://github.com/sue445/itamae-plugin-recipe-datadog
+  revision: 01ab5062d2d684696dc95dd81568d69b9874289c
   specs:
     itamae-plugin-recipe-datadog (0.2.0)
 
