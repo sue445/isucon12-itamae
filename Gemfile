@@ -6,7 +6,10 @@ git_source(:github) { |repo_name| "https://github.com/#{repo_name}" }
 
 gem "dotenv"
 gem "itamae"
-gem "itamae-plugin-recipe-datadog"
+
+#gem "itamae-plugin-recipe-datadog"
+gem "itamae-plugin-recipe-datadog", path: "../../speee/itamae-plugin-recipe-datadog"
+
 gem "rake"
 
 group :test do
