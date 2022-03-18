@@ -1,7 +1,7 @@
 GIT
-  remote: https://github.com/sue445/itamae-plugin-recipe-datadog
-  revision: e2b821a00cf57511476ebfb96bcc17c4b1bb1f89
-  branch: skip_install_if_installed
+  remote: https://github.com/speee/itamae-plugin-recipe-datadog
+  revision: 2ab50e35da44a19ce0fb0fcdf445acea35f468cb
+  branch: master
   specs:
     itamae-plugin-recipe-datadog (0.2.0)
 

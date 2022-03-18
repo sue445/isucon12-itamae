@@ -7,9 +7,9 @@ git_source(:github) { |repo_name| "https://github.com/#{repo_name}" }
 gem "dotenv"
 gem "itamae"
 
-# TODO: https://github.com/speee/itamae-plugin-recipe-datadog/pull/9 がマージされるまでの暫定
+# TODO: gemがリリースまでの暫定
 # gem "itamae-plugin-recipe-datadog"
-gem "itamae-plugin-recipe-datadog", github: "sue445/itamae-plugin-recipe-datadog", branch: "skip_install_if_installed"
+gem "itamae-plugin-recipe-datadog", github: "speee/itamae-plugin-recipe-datadog", branch: "master"
 
 gem "rake"
 
