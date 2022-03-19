@@ -8,7 +8,8 @@ ruby:
 gem:
   binary: "/home/isucon/local/ruby/bin/gem"
   install:
-    - stackprof-webnav
+    stackprof-webnav:
+    bundler: 2.3.9
 
 git_global_config:
   user.email: "sue445@sue445.net"
