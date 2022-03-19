@@ -6,11 +6,7 @@ git_source(:github) { |repo_name| "https://github.com/#{repo_name}" }
 
 gem "dotenv"
 gem "itamae"
-
-# TODO: gemがリリースまでの暫定
-# gem "itamae-plugin-recipe-datadog"
-gem "itamae-plugin-recipe-datadog", github: "speee/itamae-plugin-recipe-datadog", branch: "master"
-
+gem "itamae-plugin-recipe-datadog", ">= 0.2.1"
 gem "rake"
 
 group :test do
