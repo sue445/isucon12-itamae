@@ -16,10 +16,14 @@ if node.dig(:ruby, :version)
   end
 end
 
-node[:gem][:install].each do |name|
-  gem_package name do
+node[:gem][:install].each do |gem_name, gem_version|
+  gem_package gem_name do
     gem_binary node[:gem][:binary]
     options    "--no-doc"
     user       "isucon"
+
+    if gem_version
+      version gem_version
+    end
   end
 end
