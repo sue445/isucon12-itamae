@@ -85,10 +85,6 @@ template "/etc/mysql/conf.d/isucon.cnf" do
   end
 end
 
-# Datadogで使うmysqlのユーザを作成する
-# c.f.
-# * https://docs.datadoghq.com/ja/integrations/mysql/
-# * https://docs.datadoghq.com/ja/database_monitoring/setup_mysql/selfhosted/
 
 define :mysql_command, check_command: nil, expected_response: nil do
   check_command = params[:check_command]
@@ -101,6 +97,7 @@ define :mysql_command, check_command: nil, expected_response: nil do
   end
 end
 
+#  /etc/isucon-itamae/ にあるsqlファイルを実行する
 define :execute_sql_file do
   execute "mysql < /etc/isucon-itamae/#{params[:name]}"
 end
@@ -142,6 +139,10 @@ end
 
 execute_sql_file "create_isucon_user.sql"
 
+# Datadogで使うmysqlのユーザを作成する
+# c.f.
+# * https://docs.datadoghq.com/ja/integrations/mysql/
+# * https://docs.datadoghq.com/ja/database_monitoring/setup_mysql/selfhosted/
 if node[:mysql][:short_version] >= 8.0
   execute_sql_file "create_datadog_user_mysql_8.0.sql"
 else
