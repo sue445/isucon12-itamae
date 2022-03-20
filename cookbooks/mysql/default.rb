@@ -102,6 +102,17 @@ define :execute_sql_file do
   execute "mysql < /etc/isucon-itamae/#{params[:name]}"
 end
 
+# files/etc/isucon-itamae/ にあるsqlファイルをuploadして実行する
+define :upload_and_execute_sql_file do
+  remote_file "/etc/isucon-itamae/#{params[:name]}" do
+    mode  "644"
+    owner "root"
+    group "root"
+  end
+
+  execute_sql_file params[:name]
+end
+
 # クエリを実行した結果を取得する
 # @param sql
 # @return [Array<Array<String>>]
@@ -122,35 +133,20 @@ directory "/etc/isucon-itamae/" do
   group "root"
 end
 
-%w(
-  create_datadog_enable_events_statements_consumers.sql
-  create_datadog_explain_statement.sql
-  create_datadog_schema.sql
-  create_datadog_user_mysql_5.7.sql
-  create_datadog_user_mysql_8.0.sql
-  create_isucon_user.sql
-).each do |file|
-  remote_file "/etc/isucon-itamae/#{file}" do
-    mode  "644"
-    owner "root"
-    group "root"
-  end
-end
-
-execute_sql_file "create_isucon_user.sql"
+upload_and_execute_sql_file "create_isucon_user.sql"
 
 # Datadogで使うmysqlのユーザを作成する
 # c.f.
 # * https://docs.datadoghq.com/ja/integrations/mysql/
 # * https://docs.datadoghq.com/ja/database_monitoring/setup_mysql/selfhosted/
 if node[:mysql][:short_version] >= 8.0
-  execute_sql_file "create_datadog_user_mysql_8.0.sql"
+  upload_and_execute_sql_file "create_datadog_user_mysql_8.0.sql"
 else
-  execute_sql_file "create_datadog_user_mysql_5.7.sql"
+  upload_and_execute_sql_file "create_datadog_user_mysql_5.7.sql"
 end
 
-execute_sql_file "create_datadog_schema.sql"
-execute_sql_file "create_datadog_explain_statement.sql"
+upload_and_execute_sql_file "create_datadog_schema.sql"
+upload_and_execute_sql_file "create_datadog_explain_statement.sql"
 
 isucon_schemas = find_by_sql("SELECT schema_name from information_schema.schemata where schema_name LIKE 'isu%'").flatten
 isucon_schemas.each do |schema_name|
@@ -169,4 +165,4 @@ isucon_schemas.each do |schema_name|
   execute_sql_file "create_datadog_explain_statement_by_#{schema_name}.sql"
 end
 
-execute_sql_file "create_datadog_enable_events_statements_consumers.sql"
+upload_and_execute_sql_file "create_datadog_enable_events_statements_consumers.sql"
