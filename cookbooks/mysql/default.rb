@@ -104,6 +104,12 @@ end
 
 # files/etc/isucon-itamae/ にあるsqlファイルをuploadして実行する
 define :upload_and_execute_sql_file do
+  directory "/etc/isucon-itamae/" do
+    mode  "755"
+    owner "root"
+    group "root"
+  end
+
   remote_file "/etc/isucon-itamae/#{params[:name]}" do
     mode  "644"
     owner "root"
@@ -125,12 +131,6 @@ def find_by_sql(sql)
     rows << row.split("\t")
   end
   rows
-end
-
-directory "/etc/isucon-itamae/" do
-  mode  "755"
-  owner "root"
-  group "root"
 end
 
 upload_and_execute_sql_file "create_isucon_user.sql"
