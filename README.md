@@ -26,6 +26,7 @@ Host isucon-03
   User isucon
   ForwardAgent yes
 
+# 模擬戦のみ
 Host isucon-bench
   Hostname xx.xx.xx.xx
   Port 22
