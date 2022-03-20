@@ -8,7 +8,7 @@ ruby:
 gem:
   binary: "/home/isucon/local/ruby/bin/gem"
   # install:
-  #   - stackprof-webnav
+  #   stackprof-webnav:
 
 git_global_config:
   user.email: "foo@example.com"
