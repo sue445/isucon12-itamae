@@ -27,7 +27,3 @@ node[:gem][:install].each do |gem_name, gem_version|
     end
   end
 end
-
-link "/usr/local/bin/ruby"  do
-  to node[:ruby][:binary]
-end
