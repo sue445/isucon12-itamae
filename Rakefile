@@ -88,17 +88,22 @@ namespace :test do
 
     log_level = ENV["LOG_LEVEL"] || "info"
 
-    command = [
-      "itamae",
-      "docker",
-      "--container", itamae_container_name,
-      "--tag", "itamae:latest",
-      "--tmp-dir", "/var/tmp/itamae_tmp",
-      "--node-yaml", "test/node.yml",
-      "--log-level", log_level,
-      "cookbooks/default.rb"
-    ]
-    sh command.join(" ")
+    %w(
+      test/cookbooks/default.rb
+      cookbooks/default.rb
+    ).each do |recipe_file|
+      command = [
+        "itamae",
+        "docker",
+        "--container", itamae_container_name,
+        "--tag", "itamae:latest",
+        "--tmp-dir", "/var/tmp/itamae_tmp",
+        "--node-yaml", "test/node.yml",
+        "--log-level", log_level,
+        recipe_file,
+      ]
+      sh command.join(" ")
+    end
   end
 
   desc "Clean a docker container for test"
