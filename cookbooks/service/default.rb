@@ -24,7 +24,7 @@ end
 
 # active_languageに書かれた言語のみを起動する
 isucon_services.each do |name|
-  if name.end_with?(".#{node[:services][:active_language]}")
+  if name.end_with?(".#{node[:services][:active_language]}") && !node[:hostname].include?("bench")
     service name do
       action [:start, :enable]
     end
