@@ -1,7 +1,3 @@
-node[:services][:enabled] ||= []
-node[:services][:disabled] ||= []
-
-
 # Dockerコンテナ内ではhostnameを変更できないのでスキップする
 unless node[:docker]
   # hostnameを設定
@@ -18,19 +14,6 @@ end
 # ツールのインストール
 node[:packages].each do |name|
   package name
-end
-
-# サービスのON/OFF
-node[:services][:disabled].each do |name|
-  service name do
-    action [:stop, :disable]
-  end
-end
-
-node[:services][:enabled].each do |name|
-  service name do
-    action [:start, :enable]
-  end
 end
 
 # ulimit変更
