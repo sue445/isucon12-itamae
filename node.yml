@@ -25,9 +25,11 @@ packages:
   - redis-server
   - memcached
 
-# NOTE: `sudo systemctl list-unit-files --type=service | grep isu` などで調べる
 services:
+  # この言語の参照実装のみ有効化する
   active_language: ruby
+
+  # NOTE: active_languageが効かない場合は `sudo systemctl list-unit-files --type=service | grep isu` などで調べる
   enabled:
     # isucon11-qualify
     # - isucondition.ruby.service
@@ -49,6 +51,7 @@ newrelic: false
 datadog:
   # NOTE: api_keyは.envからセットする
   # api_key: xxxxxx
+
   install_only: false
   upgrade: false
 
