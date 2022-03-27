@@ -22,7 +22,6 @@ packages:
   - htop
   - tmux
   - tig
-  - graphviz # stakprof-webnavで必要
   - redis-server
   - memcached
 
