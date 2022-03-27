@@ -8,7 +8,7 @@ ruby:
 gem:
   binary: "/home/isucon/local/ruby/bin/gem"
   install:
-    # NOTE: Ruby 3.1だとbundlerでwarningが出るため
+    # NOTE: Ruby 3.1だとbundlerでwarningが出るため最新を入れる    
     # c.f. https://github.com/rubygems/rubygems/issues/5234
     bundler: 2.3.9
 
