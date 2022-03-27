@@ -23,3 +23,34 @@ file "/etc/sudoers" do
     end
   end
 end
+
+%w(
+  go
+  nodejs
+  perl
+  php
+  python
+  ruby
+  rust
+).each do |language|
+  template "/etc/systemd/system/isucondummy.#{language}.service" do
+    source "templates/isucondummy.service.erb"
+    mode "644"
+    owner "root"
+    group "root"
+
+    variables(
+      language: language,
+    )
+  end
+
+  if language == "go"
+    service "isucondummy.go" do
+      action [:start, :enable]
+    end
+  else
+    service "isucondummy.go" do
+      action [:stop, :disable]
+    end
+  end
+end
