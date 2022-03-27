@@ -18,6 +18,7 @@ include_recipe "initialize"
 
 [
   "system",
+  "service",
   "user",
 ].each do |cookbook_name|
   if include_cookbook?(cookbook_name)

@@ -1,0 +1,17 @@
+[Unit]
+Description=isucondummy.<%= @language %>
+After=network.target cloud-config.service
+
+[Service]
+WorkingDirectory=/home/isucon/
+
+User=isucon
+Group=isucon
+ExecStart=date
+ExecStop=/bin/kill -s QUIT $MAINPID
+
+Restart   = always
+Type      = simple
+
+[Install]
+WantedBy=multi-user.target
