@@ -50,7 +50,7 @@ datadog:
   # NOTE: api_keyは.envからセットする
   # api_key: xxxxxx
   install_only: false
-  upgrade: true
+  upgrade: false
   agent_major_version: 7
 
   integrations:
