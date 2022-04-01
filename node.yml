@@ -50,7 +50,8 @@ datadog:
   # NOTE: api_keyは.envからセットする
   # api_key: xxxxxx
   install_only: false
-  upgrade: false
+  upgrade: true
+  agent_major_version: 7
 
   integration:
     datadog-puma: 1.1.0 # https://github.com/DataDog/integrations-extras/blob/master/puma/CHANGELOG.md
