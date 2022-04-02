@@ -14,7 +14,7 @@ GEM
       schash (~> 0.1.0)
       specinfra (>= 2.64.0, < 3.0.0)
       thor
-    itamae-plugin-recipe-datadog (0.3.0)
+    itamae-plugin-recipe-datadog (0.3.1)
       itamae
     multi_json (1.15.0)
     net-scp (3.0.0)
@@ -24,12 +24,12 @@ GEM
     rake (13.0.6)
     schash (0.1.2)
     sfl (2.3)
-    specinfra (2.83.1)
+    specinfra (2.83.2)
       net-scp
       net-ssh (>= 2.7)
       net-telnet (= 0.1.1)
       sfl
-    thor (1.1.0)
+    thor (1.2.1)
 
 PLATFORMS
   ruby
