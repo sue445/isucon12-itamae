@@ -44,6 +44,7 @@ end
     )
   end
 
+  # NOTE: ISUCONの参照実装はだいたい初期状態でgoが有効化されているので合わせる（cookbook内でrubyを有効化している）
   if language == "go"
     service "isucondummy.go" do
       action [:start, :enable]
