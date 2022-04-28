@@ -2,7 +2,8 @@ xbuild:
   path: "/home/isucon/xbuild"
 
 ruby:
-  version: 3.1.2
+  version: 3.2.0-dev
+  # version: 3.1.2
   binary: "/home/isucon/local/ruby/bin/ruby"
 
 gem:
@@ -11,6 +12,11 @@ gem:
     # NOTE: Ruby 3.1だとbundlerでwarningが出るため最新を入れる    
     # c.f. https://github.com/rubygems/rubygems/issues/5234
     bundler: 2.3.9
+
+rust:
+  # Ruby 3.2.0devでYJITを有効にしてビルドするには1.60.0以上が必要
+  # c.f. https://koic.hatenablog.com/entry/building-rust-yjit
+  version: 1.60.0
 
 git_global_config:
   user.email: "sue445@sue445.net"

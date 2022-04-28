@@ -35,6 +35,9 @@ return if node[:hostname].include?("bench")
   "fluentd",
   "datadog",
 
+  # Ruby 3.2.0-devでYJITを使うにはrustの処理系が必要なので先に入れる
+  "rust",
+
   # NOTE: これが一番重いので他の作業が中断しないように一番最後に実行する
   "ruby",
 ].each do |cookbook_name|
