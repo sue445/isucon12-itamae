@@ -8,7 +8,6 @@ execute "curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
   user "isucon"
 end
 
-execute "#{CARGO_BIN}/rustup update #{node[:rust][:version]}" do
-  not_if "#{CARGO_BIN}/rustc --version | grep #{node[:rust][:version]}"
+execute "#{CARGO_BIN}/rustup update" do
   user "isucon"
 end
