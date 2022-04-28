@@ -27,15 +27,25 @@ end
 
 # xbuildで最新のrubyを入れる
 if node.dig(:ruby, :version)
-  options = ""
-  if Gem::Version.create(node[:ruby][:version]) >= Gem::Version.create("3.2.0-dev")
-    options << "RUBY_CONFIGURE_OPTS=--enable-yjit PATH=/home/isucon/.cargo/bin:$PATH "
+  install_options = ""
+  check_command = ""
+
+  # NOTE: ruby-buildで3.2.0-devをインストールした場合、ruby -vでは3.2.0devが出力されるため
+  command_ruby_version = node[:ruby][:version].gsub("-", "")
+
+  if Gem::Version.create(node[:ruby][:version]) >= Gem::Version.create("3.2.0-dev") && node[:ruby][:enabled_yjit]
+    install_options << "RUBY_CONFIGURE_OPTS=--enable-yjit PATH=/home/isucon/.cargo/bin:$PATH "
+
+    # NOTE: Ruby 3.2.0以降ではYJITを有効にしてビルドしてるかもチェックする
+    check_command = %Q{bash -c '( #{node[:ruby][:binary]} --version | grep #{command_ruby_version} ) && ( #{node[:ruby][:binary]} --yjit -e "p RubyVM::YJIT.enabled?" | grep "true")'}
+  else
+    check_command = "#{node[:ruby][:binary]} --version | grep #{command_ruby_version}"
   end
 
-  execute "#{options}#{node[:xbuild][:path]}/ruby-install #{node[:ruby][:version]} #{home_dir}/local/ruby" do
+  execute "#{install_options}#{node[:xbuild][:path]}/ruby-install #{node[:ruby][:version]} #{home_dir}/local/ruby" do
     user "isucon"
 
-    not_if "#{node[:ruby][:binary]} --version | grep #{node[:ruby][:version]}"
+    not_if check_command
   end
 end
 
