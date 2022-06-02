@@ -21,6 +21,8 @@ jobs:
         dockerfile:
           - ubuntu-focal-mysql
           - ubuntu-focal-mariadb
+          - ubuntu-jammy-mysql
+          - ubuntu-jammy-mariadb
 
     steps:
       - uses: actions/checkout@v2

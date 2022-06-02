@@ -140,7 +140,12 @@ upload_and_execute_sql_file "create_isucon_user.sql"
 # * https://docs.datadoghq.com/ja/integrations/mysql/
 # * https://docs.datadoghq.com/ja/database_monitoring/setup_mysql/selfhosted/
 if node[:mysql][:short_version] >= 8.0
-  upload_and_execute_sql_file "create_datadog_user_mysql_8.0.sql"
+  if node[:mysql][:mariadb_version]
+    # FIXME: Ubuntu Jammy + MariaDBの場合に「WITH mysql_native_password」が使えないので消す
+    upload_and_execute_sql_file "create_datadog_user_mysql_8.0_mariadb.sql"
+  else
+    upload_and_execute_sql_file "create_datadog_user_mysql_8.0.sql"
+  end
 else
   upload_and_execute_sql_file "create_datadog_user_mysql_5.7.sql"
 end

@@ -16,6 +16,13 @@ when "ubuntu"
       not_if "apt-key list | grep 'Treasure Agent Official Signing key'"
     end
 
+    ubuntu_code_name =
+      if node[:platform_version] >= "22.04"
+        "jammy"
+      else
+        "focal"
+      end
+
     template "/etc/apt/sources.list.d/treasure-data.list" do
       owner "root"
       group "root"
@@ -23,7 +30,7 @@ when "ubuntu"
 
       variables(
         platform: "ubuntu",
-        version:  "focal",
+        version:  ubuntu_code_name,
       )
     end
 
