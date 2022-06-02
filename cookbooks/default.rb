@@ -29,14 +29,19 @@ end
 # NOTE: ベンチマークサーバでは以降は不要
 return if node[:hostname].include?("bench")
 
+# NOTE: Ruby 3.2.0-dev以降かつ、YJIT利用時のみRustのセットアップをする
+if node.dig(:ruby, :version) && Gem::Version.create(node[:ruby][:version]) >= Gem::Version.create("3.2.0-dev") && node[:ruby][:enabled_yjit]
+  if include_cookbook?("rust")
+    # Ruby 3.2.0-devでYJITを使うにはrustの処理系が必要なのでRubyよりも先に入れる
+    include_recipe "rust"
+  end
+end
+
 [
   "mysql",
   "nginx",
   "fluentd",
   "datadog",
-
-  # Ruby 3.2.0-devでYJITを使うにはrustの処理系が必要なので先に入れる
-  "rust",
 
   # NOTE: これが一番重いので他の作業が中断しないように一番最後に実行する
   "ruby",
