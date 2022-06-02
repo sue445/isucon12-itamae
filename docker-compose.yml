@@ -4,7 +4,8 @@ services:
   app:
     build:
       context: ./dockerfiles
-      dockerfile: ubuntu-focal-mysql.dockerfile
+      # dockerfile: ubuntu-focal-mysql.dockerfile
+      dockerfile: ubuntu-jammy-mariadb.dockerfile
     privileged: true
     command:
       - "/sbin/init"
