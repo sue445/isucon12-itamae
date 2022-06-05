@@ -15,7 +15,11 @@ bind-address  = 0.0.0.0
 # mysqlx-bind-address = 0.0.0.0
 
 innodb_file_per_table = ON
+
+# c.f. 技術評論社「達人が教えるWebパフォーマンスチューニング」P163
 innodb_flush_method=O_DIRECT
+innodb_flush_log_at_trx_commit = 0
+disable-log-bin = 1
 
 # 物理メモリの8割
 # innodb_buffer_pool_size = <%= @innodb_buffer_pool_size_mb %>M
