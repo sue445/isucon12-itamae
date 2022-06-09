@@ -14,11 +14,6 @@ gem:
     # c.f. https://github.com/rubygems/rubygems/issues/5234
     bundler: 2.3.9
 
-rust:
-  # Ruby 3.2.0devでYJITを有効にしてビルドするには1.60.0以上が必要
-  # c.f. https://koic.hatenablog.com/entry/building-rust-yjit
-  version: 1.60.0
-
 git_global_config:
   user.email: "sue445@sue445.net"
   user.name:  "sue445"
