@@ -25,33 +25,58 @@ end
   package name
 end
 
-# xbuildで最新のrubyを入れる
-if node.dig(:ruby, :version)
-  install_options = ""
-  check_command = ""
-
-  # NOTE: ruby-buildで3.2.0-devをインストールした場合、ruby -vでは3.2.0devが出力されるため
-  command_ruby_version = node[:ruby][:version].gsub("-", "")
-
-  if Gem::Version.create(node[:ruby][:version]) >= Gem::Version.create("3.2.0-dev") && node[:ruby][:enabled_yjit]
-    install_options << "RUBY_CONFIGURE_OPTS=--enable-yjit PATH=/home/isucon/.cargo/bin:$PATH "
-
-    # NOTE: Ruby 3.2.0以降ではYJITを有効にしてビルドしてるかもチェックする
-    check_command = %Q{bash -c '( #{node[:ruby][:binary]} --version | grep #{command_ruby_version} ) && ( #{node[:ruby][:binary]} --yjit -e "p RubyVM::YJIT.enabled?" | grep "true")'}
-  else
-    check_command = "#{node[:ruby][:binary]} --version | grep #{command_ruby_version}"
+%w(
+  /home/isucon/local/ruby
+  /home/isucon/local/ruby/bin
+  /home/isucon/local/ruby/versions
+).each do |path|
+  directory path do
+    mode  "775"
+    owner "isucon"
+    group "isucon"
   end
+end
 
-  execute "#{install_options}#{node[:xbuild][:path]}/ruby-install #{node[:ruby][:version]} #{home_dir}/local/ruby" do
-    user "isucon"
+# nodeでruby.versionの指定が無い場合はここで終わり
+return unless node.dig(:ruby, :version)
 
-    not_if check_command
-  end
+ruby_install_path = "#{home_dir}/local/ruby/versions/#{node[:ruby][:version]}"
+
+install_options = ""
+# check_command = ""
+
+# NOTE: ruby-buildで3.2.0-devをインストールした場合、ruby -vでは3.2.0devが出力されるため
+command_ruby_version = node[:ruby][:version].gsub("-", "")
+
+if Gem::Version.create(node[:ruby][:version]) >= Gem::Version.create("3.2.0-dev") && node[:ruby][:enabled_yjit]
+  install_options << "RUBY_CONFIGURE_OPTS=--enable-yjit PATH=/home/isucon/.cargo/bin:$PATH "
+
+  # NOTE: Ruby 3.2.0以降ではYJITを有効にしてビルドしてるかもチェックする
+  # check_command = %Q{bash -c '( #{node[:ruby][:binary]} --version | grep #{command_ruby_version} ) && ( #{node[:ruby][:binary]} --yjit -e "p RubyVM::YJIT.enabled?" | grep "true")'}
+else
+  # check_command = "#{node[:ruby][:binary]} --version | grep #{command_ruby_version}"
+end
+
+execute "#{install_options}#{node[:xbuild][:path]}/ruby-install #{node[:ruby][:version]} #{ruby_install_path}" do
+  user "isucon"
+
+  # not_if check_command
+  not_if "ls #{ruby_install_path}/bin/ruby"
+end
+
+link node[:ruby][:binary] do
+  to    "#{ruby_install_path}/bin/ruby"
+  force true
+end
+
+link node[:gem][:binary] do
+  to    "#{ruby_install_path}/bin/gem"
+  force true
 end
 
 node[:gem][:install].each do |gem_name, gem_version|
   gem_package gem_name do
-    gem_binary node[:gem][:binary]
+    gem_binary "#{ruby_install_path}/bin/gem"
     options    "--no-doc"
     user       "isucon"
 
