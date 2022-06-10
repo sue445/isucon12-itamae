@@ -1,6 +1,8 @@
 require "yaml"
 require "tmpdir"
 
+ENV["SSH_USER"] ||= "isucon"
+
 def run_itamae(hostname:, ip_address:, dry_run:)
   # node.ymlにメソッドの引数をmergeした新しいyamlを作ってitamaeを実行する
   node = YAML.load_file("node.yml")
@@ -17,7 +19,7 @@ def run_itamae(hostname:, ip_address:, dry_run:)
     command = [
       "itamae",
       "ssh",
-      "--user", "isucon",
+      "--user", ENV["SSH_USER"],
       "--host", ip_address,
       "--node-yaml", node_yaml,
       "--log-level", log_level,
@@ -64,7 +66,7 @@ task :print_public_keys do
   public_keys =
     hosts.map do |_, v|
       ip_address = v["ip_address"]
-      `ssh isucon@#{ip_address} cat /home/isucon/.ssh/id_ed25519.pub`.strip
+      `ssh #{ENV["SSH_USER"]}@#{ip_address} cat /home/#{ENV["SSH_USER"]}/.ssh/id_ed25519.pub`.strip
     end
 
   puts public_keys.join("\n")

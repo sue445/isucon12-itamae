@@ -79,6 +79,15 @@ bundle exec rake print_public_keys
 COOKBOOK=datadog,mysql bundle exec rake itamae:host01:apply
 ```
 
+## ログイン時のユーザ名を変える
+`SSH_USER` を渡す
+
+例
+
+```bash
+SSH_USER=ubuntu bundle exec rake itamae:host01:apply
+```
+
 ## Testing
 ```bash
 bundle exec rake test
