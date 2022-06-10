@@ -1,5 +1,8 @@
 # MySQLのバージョンをnodeにセットする
 
+# NOTE: ベンチマークサーバではmysqlが入ってないことがあるので実行しない
+return if node[:hostname].include?("bench")
+
 result = run_command("mysql --version")
 mysql_full_version = result.stdout.strip
 
