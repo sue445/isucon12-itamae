@@ -51,7 +51,6 @@ services:
 
     # インストールはするが実際に使うまでサービスは止めておく
     - redis-server
-    - memcached
 
 datadog:
   # NOTE: api_keyは.envからセットする
