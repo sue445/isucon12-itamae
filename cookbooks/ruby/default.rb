@@ -21,6 +21,11 @@ end
   "libgdbm6",
   "libgdbm-dev",
   "libdb-dev",
+
+  # 3.2.0-devビルド時に「configure: error: cannot run /bin/bash tool/config.sub」が出るため
+  # c.f. https://github.com/rubyomr-preview/rubyomr-preview/issues/22#issuecomment-268372174
+  "git",
+  "ruby",
 ].each do |name|
   package name
 end
