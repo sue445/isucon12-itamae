@@ -188,3 +188,13 @@ instances:
     search_string:
       - "^nginx: master process .*"
     exact_match: false
+
+  - name: unicorn_worker
+    search_string:
+      - "^unicorn master"
+    exact_match: false
+
+  - name: unicorn_master
+    search_string:
+      - "^unicorn master"
+    exact_match: false
