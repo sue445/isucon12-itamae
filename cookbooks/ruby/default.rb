@@ -79,6 +79,11 @@ link node[:gem][:binary] do
   force true
 end
 
+link "#{home_dir}/local/ruby/bin/bundle" do
+  to    "#{ruby_install_path}/bin/bundle"
+  force true
+end
+
 node[:gem][:install].each do |gem_name, gem_version|
   gem_package gem_name do
     gem_binary "#{ruby_install_path}/bin/gem"
