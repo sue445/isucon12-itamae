@@ -8,20 +8,25 @@ git node[:xbuild][:path] do
 end
 
 # .c.f. https://github.com/rbenv/ruby-build/wiki#ubuntudebianmint
-%w(
-  autoconf
-  bison
-  build-essential
-  libssl-dev
-  libyaml-dev
-  libreadline6-dev
-  zlib1g-dev
-  libncurses5-dev
-  libffi-dev
-  libgdbm6
-  libgdbm-dev
-  libdb-dev
-).each do |name|
+[
+  "autoconf",
+  "bison",
+  "build-essential",
+  "libssl-dev",
+  "libyaml-dev",
+  "libreadline6-dev",
+  "zlib1g-dev",
+  "libncurses5-dev",
+  "libffi-dev",
+  "libgdbm6",
+  "libgdbm-dev",
+  "libdb-dev",
+
+  # 3.2.0-devビルド時に「configure: error: cannot run /bin/bash tool/config.sub」が出るため
+  # c.f. https://github.com/rubyomr-preview/rubyomr-preview/issues/22#issuecomment-268372174
+  "git",
+  "ruby",
+].each do |name|
   package name
 end
 
