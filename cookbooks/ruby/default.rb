@@ -8,20 +8,20 @@ git node[:xbuild][:path] do
 end
 
 # .c.f. https://github.com/rbenv/ruby-build/wiki#ubuntudebianmint
-%w(
-  autoconf
-  bison
-  build-essential
-  libssl-dev
-  libyaml-dev
-  libreadline6-dev
-  zlib1g-dev
-  libncurses5-dev
-  libffi-dev
-  libgdbm6
-  libgdbm-dev
-  libdb-dev
-).each do |name|
+[
+  "autoconf",
+  "bison",
+  "build-essential",
+  "libssl-dev",
+  "libyaml-dev",
+  "libreadline6-dev",
+  "zlib1g-dev",
+  "libncurses5-dev",
+  "libffi-dev",
+  "libgdbm6",
+  "libgdbm-dev",
+  "libdb-dev",
+].each do |name|
   package name
 end
 
