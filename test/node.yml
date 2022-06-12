@@ -14,8 +14,6 @@ packages:
 
 services:
   active_language: ruby
-  enabled:
-  disabled:
 
 mysql:
   users:
