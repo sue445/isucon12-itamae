@@ -1,5 +1,10 @@
-node[:services][:enabled] ||= []
-node[:services][:disabled] ||= []
+node.reverse_merge!(
+  services: {
+    active_language: "ruby",
+    enabled: [],
+    disabled: [],
+  },
+)
 
 # サービスのON/OFF
 node[:services][:disabled].each do |name|

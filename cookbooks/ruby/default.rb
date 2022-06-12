@@ -1,6 +1,13 @@
 home_dir = "/home/isucon"
 
-node[:gem][:install] ||= []
+node.reverse_merge!(
+  gem: {
+    install: [],
+  },
+  xbuild: {
+    path: "/home/isucon/xbuild",
+  }
+)
 
 git node[:xbuild][:path] do
   repository "https://github.com/tagomoris/xbuild.git"
@@ -55,7 +62,8 @@ if Gem::Version.create(node[:ruby][:version]) >= Gem::Version.create("3.2.0-dev"
   install_options << "RUBY_CONFIGURE_OPTS=--enable-yjit PATH=/home/isucon/.cargo/bin:$PATH "
 
   # NOTE: Ruby 3.2.0以降でenabled_yjitが有効な場合ではYJITを有効にしてビルドしてるかもチェックする
-  check_command = "{#{ruby_binary} --yjit -e 'p RubyVM::YJIT.enabled?' | grep 'true'}"
+  # c.f. https://koic.hatenablog.com/entry/building-rust-yjit
+  check_command = "#{ruby_binary} --yjit -e 'p RubyVM::YJIT.enabled?' | grep 'true'"
 else
   check_command = "ls #{ruby_binary}"
 end
