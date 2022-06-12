@@ -4,11 +4,9 @@ xbuild:
 ruby:
   # version: 3.2.0-dev
   version: 3.1.2
-  binary: "/home/isucon/local/ruby/bin/ruby"
   enabled_yjit: true
 
 gem:
-  binary: "/home/isucon/local/ruby/bin/gem"
   install:
     # NOTE: Ruby 3.1だとbundlerでwarningが出るため最新を入れる    
     # c.f. https://github.com/rubygems/rubygems/issues/5234
