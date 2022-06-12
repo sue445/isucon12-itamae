@@ -64,6 +64,11 @@ datadog:
     datadog-puma: 1.1.0 # https://github.com/DataDog/integrations-extras/blob/master/puma/CHANGELOG.md
 
 mysql:
+  users:
+    - user: isucon
+      host: "%"
+      password: isucon
+
   slow_query_log_file: /var/log/mysql/slow.log
   long_query_time: 0
 
