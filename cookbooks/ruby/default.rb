@@ -46,42 +46,24 @@ end
 return unless node.dig(:ruby, :version)
 
 ruby_install_path = "#{home_dir}/local/ruby/versions/#{node[:ruby][:version]}"
+ruby_binary = "#{ruby_install_path}/bin/ruby"
 
 install_options = ""
-# check_command = ""
-
-# NOTE: ruby-buildで3.2.0-devをインストールした場合、ruby -vでは3.2.0devが出力されるため
-command_ruby_version = node[:ruby][:version].gsub("-", "")
+check_command = ""
 
 if Gem::Version.create(node[:ruby][:version]) >= Gem::Version.create("3.2.0-dev") && node[:ruby][:enabled_yjit]
   install_options << "RUBY_CONFIGURE_OPTS=--enable-yjit PATH=/home/isucon/.cargo/bin:$PATH "
 
-  # NOTE: Ruby 3.2.0以降ではYJITを有効にしてビルドしてるかもチェックする
-  # check_command = %Q{bash -c '( #{node[:ruby][:binary]} --version | grep #{command_ruby_version} ) && ( #{node[:ruby][:binary]} --yjit -e "p RubyVM::YJIT.enabled?" | grep "true")'}
+  # NOTE: Ruby 3.2.0以降でenabled_yjitが有効な場合ではYJITを有効にしてビルドしてるかもチェックする
+  check_command = "{#{ruby_binary} --yjit -e 'p RubyVM::YJIT.enabled?' | grep 'true'}"
 else
-  # check_command = "#{node[:ruby][:binary]} --version | grep #{command_ruby_version}"
+  check_command = "ls #{ruby_binary}"
 end
 
 execute "#{install_options}#{node[:xbuild][:path]}/ruby-install #{node[:ruby][:version]} #{ruby_install_path}" do
   user "isucon"
 
-  # not_if check_command
-  not_if "ls #{ruby_install_path}/bin/ruby"
-end
-
-link node[:ruby][:binary] do
-  to    "#{ruby_install_path}/bin/ruby"
-  force true
-end
-
-link node[:gem][:binary] do
-  to    "#{ruby_install_path}/bin/gem"
-  force true
-end
-
-link "#{home_dir}/local/ruby/bin/bundle" do
-  to    "#{ruby_install_path}/bin/bundle"
-  force true
+  not_if check_command
 end
 
 node[:gem][:install].each do |gem_name, gem_version|
