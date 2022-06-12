@@ -3,6 +3,9 @@ home_dir = "/home/isucon"
 node.reverse_merge!(
   gem: {
     install: [],
+  },
+  xbuild: {
+    path: "/home/isucon/xbuild",
   }
 )
 

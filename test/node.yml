@@ -1,6 +1,3 @@
-xbuild:
-  path: "/home/isucon/xbuild"
-
 ruby:
   # version: 3.0.2
 
