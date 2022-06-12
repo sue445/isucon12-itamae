@@ -1,6 +1,10 @@
 home_dir = "/home/isucon"
 
-node[:gem][:install] ||= []
+node.reverse_merge!(
+  gem: {
+    install: [],
+  }
+)
 
 git node[:xbuild][:path] do
   repository "https://github.com/tagomoris/xbuild.git"
