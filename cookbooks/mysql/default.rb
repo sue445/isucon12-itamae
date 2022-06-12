@@ -97,6 +97,12 @@ define :mysql_command, check_command: nil, expected_response: nil do
   end
 end
 
+directory "/etc/isucon-itamae/" do
+  mode  "755"
+  owner "root"
+  group "root"
+end
+
 #  /etc/isucon-itamae/ にあるsqlファイルを実行する
 define :execute_sql_file do
   execute "mysql < /etc/isucon-itamae/#{params[:name]}"
@@ -104,12 +110,6 @@ end
 
 # files/etc/isucon-itamae/ にあるsqlファイルをuploadして実行する
 define :upload_and_execute_sql_file do
-  directory "/etc/isucon-itamae/" do
-    mode  "755"
-    owner "root"
-    group "root"
-  end
-
   remote_file "/etc/isucon-itamae/#{params[:name]}" do
     mode  "644"
     owner "root"
