@@ -133,7 +133,23 @@ def find_by_sql(sql)
   rows
 end
 
-upload_and_execute_sql_file "create_isucon_user.sql"
+node[:mysql][:users].each do |user|
+  template "/etc/isucon-itamae/create_ussr_#{user[:user]}_#{user[:host]}.sql" do
+    source "templates/etc/isucon-itamae/create_user.sql.erb"
+
+    mode  "644"
+    owner "root"
+    group "root"
+
+    variables(
+      user:     user[:user],
+      host:     user[:host],
+      password: user[:password],
+    )
+  end
+
+  execute_sql_file "create_ussr_#{user[:user]}_#{user[:host]}.sql"
+end
 
 # Datadogで使うmysqlのユーザを作成する
 # c.f.
