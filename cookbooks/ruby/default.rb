@@ -57,21 +57,29 @@ ruby_binary = "#{ruby_install_path}/bin/ruby"
 
 install_options = ""
 check_command = ""
+force_option = ""
 
-if Gem::Version.create(node[:ruby][:version]) >= Gem::Version.create("3.2.0-dev") && node[:ruby][:enabled_yjit]
-  install_options << "RUBY_CONFIGURE_OPTS=--enable-yjit PATH=/home/isucon/.cargo/bin:$PATH "
-
-  # NOTE: Ruby 3.2.0以降でenabled_yjitが有効な場合ではYJITを有効にしてビルドしてるかもチェックする
-  # c.f. https://koic.hatenablog.com/entry/building-rust-yjit
-  check_command = "#{ruby_binary} --yjit -e 'p RubyVM::YJIT.enabled?' | grep 'true'"
+# force_installが有効な場合には毎回必ずビルドを実行する
+if node[:ruby][:force_install]
+  force_option = "-f"
 else
-  check_command = "ls #{ruby_binary}"
+  if Gem::Version.create(node[:ruby][:version]) >= Gem::Version.create("3.2.0-dev") && node[:ruby][:enabled_yjit]
+    install_options << "RUBY_CONFIGURE_OPTS=--enable-yjit PATH=/home/isucon/.cargo/bin:$PATH "
+
+    # NOTE: Ruby 3.2.0以降でenabled_yjitが有効な場合ではYJITを有効にしてビルドしてるかもチェックする
+    # c.f. https://koic.hatenablog.com/entry/building-rust-yjit
+    check_command = "#{ruby_binary} --yjit -e 'p RubyVM::YJIT.enabled?' | grep 'true'"
+  else
+    check_command = "ls #{ruby_binary}"
+  end
 end
 
-execute "#{install_options}#{node[:xbuild][:path]}/ruby-install #{node[:ruby][:version]} #{ruby_install_path}" do
+execute "#{install_options}#{node[:xbuild][:path]}/ruby-install #{force_option} #{node[:ruby][:version]} #{ruby_install_path}" do
   user "isucon"
 
-  not_if check_command
+  unless check_command.empty?
+    not_if check_command
+  end
 end
 
 node[:gem][:install].each do |gem_name, gem_version|
