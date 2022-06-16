@@ -21,6 +21,7 @@ template "/etc/datadog-agent/datadog.yaml" do
 end
 
 %w(
+  fluentd.d
   mysql.d
   nginx.d
   process.d
