@@ -26,6 +26,7 @@ end
   /etc/td-agent/td-agent.conf
   /etc/td-agent/conf.d/nginx.conf
   /etc/td-agent/conf.d/dogstatsd.conf
+  /etc/td-agent/conf.d/datadog.conf
 ).each do |name|
   remote_file name do
     owner "root"
