@@ -40,9 +40,9 @@ services:
   active_language: ruby
 
   # NOTE: active_languageが効かない場合は `sudo systemctl list-unit-files --type=service | grep isu` などで調べる
-  enabled:
-    # isucon11-qualify
-    # - isucondition.ruby.service
+  # enabled:
+  #   # isucon11-qualify
+  #   # - isucondition.ruby.service
   disabled:
     # isucon11-qualify
     # - isucondition.go.service
