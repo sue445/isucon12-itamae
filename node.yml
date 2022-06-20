@@ -1,16 +1,24 @@
 xbuild:
+  # xbuilldのインストール先
   path: "/home/isucon/xbuild"
 
 ruby:
-  # version: 3.2.0-dev
-  version: 3.1.2
-  binary: "/home/isucon/local/ruby/bin/ruby"
+  # xbuildでインストールするRubyのバージョン
+  # version: 3.1.2
+  version: 3.2.0-dev
+
+  # YJITを有効にしていビルドするかどうか(3.2.0-dev以降必須)
   enabled_yjit: true
 
+  # rubyをforce installするかどうか。（devを再ビルドする場合には有効化する）
+  force_install: false
+  # force_install: true
+
 gem:
-  binary: "/home/isucon/local/ruby/bin/gem"
+  # インストールするgemの一覧
+  # 「gem_name: version」の形式で書く（バージョン省略時は最新をいれる）
   install:
-    # NOTE: Ruby 3.1だとbundlerでwarningが出るため最新を入れる    
+    # NOTE: Ruby 3.1だとbundlerでwarningが出るため最新を入れる
     # c.f. https://github.com/rubygems/rubygems/issues/5234
     bundler: 2.3.9
 
@@ -18,6 +26,7 @@ git_global_config:
   user.email: "sue445@sue445.net"
   user.name:  "sue445"
 
+# インストールするパッケージの一覧(apt推奨)
 packages:
   - git
   - wget
@@ -25,16 +34,15 @@ packages:
   - tmux
   - tig
   - redis-server
-  - memcached
 
 services:
   # この言語の参照実装のみ有効化する
   active_language: ruby
 
   # NOTE: active_languageが効かない場合は `sudo systemctl list-unit-files --type=service | grep isu` などで調べる
-  enabled:
-    # isucon11-qualify
-    # - isucondition.ruby.service
+  # enabled:
+  #   # isucon11-qualify
+  #   # - isucondition.ruby.service
   disabled:
     # isucon11-qualify
     # - isucondition.go.service
@@ -46,8 +54,8 @@ services:
 
     # インストールはするが実際に使うまでサービスは止めておく
     - redis-server
-    - memcached
 
+# c.f. https://github.com/itamae-plugins/itamae-plugin-recipe-datadog
 datadog:
   # NOTE: api_keyは.envからセットする
   # api_key: xxxxxx
@@ -60,9 +68,21 @@ datadog:
     datadog-puma: 1.1.0 # https://github.com/DataDog/integrations-extras/blob/master/puma/CHANGELOG.md
 
 mysql:
+  # 作成するmysqlのuser
+  users:
+    - user: isucon
+      host: "%"
+      password: isucon
+
+  # スロークエリログの出力先(省略時はスローログを出力しない)
   slow_query_log_file: /var/log/mysql/slow.log
-  long_query_time: 0
+
+  long_query_time: "0"
 
 puma:
+  # https://docs.datadoghq.com/ja/integrations/puma/ で監視する時のエンドポイントとトークン
+  # 別途config/puma.rbで下記のように書いておくこと
+  #
+  # activate_control_app "tcp://127.0.0.1:9293", { auth_token: "datadog" }
   control_url:   http://127.0.0.1:9293
   control_token: datadog

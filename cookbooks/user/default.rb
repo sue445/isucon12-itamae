@@ -1,3 +1,7 @@
+node.reverse_merge!(
+  git_global_config: {},
+)
+
 home_dir = "/home/isucon"
 
 # サーバ内でgit commitできるようにuser.nameとuser.emailは最低限設定する

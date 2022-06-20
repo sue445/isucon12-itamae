@@ -35,6 +35,8 @@ disable-log-bin = 1
 # TODO: ログを止める場合はlog_errorもコメントアウトする
 # general-log = 0
 
+# TODO: 終了直前に以降の行をコメントアウトする
+
 <% if @slow_query_log_file && @long_query_time %>
 # Enable the slow query log to see queries with especially long duration
 slow_query_log         = on
@@ -45,6 +47,7 @@ long_query_time        = <%= @long_query_time %>
 #log-queries-not-using-indexes
 <% end %>
 
+# for Database Monitoring
 # c.f. https://docs.datadoghq.com/ja/database_monitoring/setup_mysql/selfhosted/
 <% if @mysql_short_version >= 5.7 %>
 performance_schema = ON

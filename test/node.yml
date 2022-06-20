@@ -1,19 +1,5 @@
-xbuild:
-  path: "/home/isucon/xbuild"
-
 ruby:
   # version: 3.0.2
-  binary: "/home/isucon/local/ruby/bin/ruby"
-
-gem:
-  binary: "/home/isucon/local/ruby/bin/gem"
-  # install:
-  #   stackprof-webnav:
-
-rust:
-  # Ruby 3.2.0devでYJITを有効にしてビルドするには1.60.0以上が必要
-  # c.f. https://koic.hatenablog.com/entry/building-rust-yjit
-  version: 1.60.0
 
 git_global_config:
   user.email: "foo@example.com"
@@ -25,10 +11,13 @@ packages:
 
 services:
   active_language: ruby
-  enabled:
-  disabled:
 
 mysql:
+  users:
+    - user: isucon
+      host: "%"
+      password: isucon
+
   slow_query_log_file: /var/log/mysql/slow.log
   long_query_time: "0.5"
 

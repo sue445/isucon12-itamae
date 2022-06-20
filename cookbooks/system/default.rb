@@ -1,3 +1,7 @@
+node.reverse_merge!(
+  packages: [],
+)
+
 # Dockerコンテナ内ではhostnameを変更できないのでスキップする
 unless node[:docker]
   # hostnameを設定

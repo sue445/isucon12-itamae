@@ -79,6 +79,23 @@ bundle exec rake print_public_keys
 COOKBOOK=datadog,mysql bundle exec rake itamae:host01:apply
 ```
 
+## ログイン時のユーザ名を変える
+`SSH_USER` を渡す
+
+例
+
+```bash
+SSH_USER=ubuntu bundle exec rake itamae:host01:apply
+```
+
+## Itamae適用後の個別設定
+### nginxのlogをfluentdで加工してdatadogに送る
+下記をnginxの設定に書く
+
+```
+access_log /var/log/nginx/access_ltsv.log ltsv;
+```
+
 ## Testing
 ```bash
 bundle exec rake test

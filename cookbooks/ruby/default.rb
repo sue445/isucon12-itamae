@@ -1,6 +1,13 @@
 home_dir = "/home/isucon"
 
-node[:gem][:install] ||= []
+node.reverse_merge!(
+  gem: {
+    install: [],
+  },
+  xbuild: {
+    path: "/home/isucon/xbuild",
+  }
+)
 
 git node[:xbuild][:path] do
   repository "https://github.com/tagomoris/xbuild.git"
@@ -8,20 +15,25 @@ git node[:xbuild][:path] do
 end
 
 # .c.f. https://github.com/rbenv/ruby-build/wiki#ubuntudebianmint
-%w(
-  autoconf
-  bison
-  build-essential
-  libssl-dev
-  libyaml-dev
-  libreadline6-dev
-  zlib1g-dev
-  libncurses5-dev
-  libffi-dev
-  libgdbm6
-  libgdbm-dev
-  libdb-dev
-).each do |name|
+[
+  "autoconf",
+  "bison",
+  "build-essential",
+  "libssl-dev",
+  "libyaml-dev",
+  "libreadline6-dev",
+  "zlib1g-dev",
+  "libncurses5-dev",
+  "libffi-dev",
+  "libgdbm6",
+  "libgdbm-dev",
+  "libdb-dev",
+
+  # 3.2.0-devビルド時に「configure: error: cannot run /bin/bash tool/config.sub」が出るため
+  # c.f. https://github.com/rubyomr-preview/rubyomr-preview/issues/22#issuecomment-268372174
+  "git",
+  "ruby",
+].each do |name|
   package name
 end
 
@@ -41,37 +53,33 @@ end
 return unless node.dig(:ruby, :version)
 
 ruby_install_path = "#{home_dir}/local/ruby/versions/#{node[:ruby][:version]}"
+ruby_binary = "#{ruby_install_path}/bin/ruby"
 
 install_options = ""
-# check_command = ""
+check_command = ""
+force_option = ""
 
-# NOTE: ruby-buildで3.2.0-devをインストールした場合、ruby -vでは3.2.0devが出力されるため
-command_ruby_version = node[:ruby][:version].gsub("-", "")
-
-if Gem::Version.create(node[:ruby][:version]) >= Gem::Version.create("3.2.0-dev") && node[:ruby][:enabled_yjit]
-  install_options << "RUBY_CONFIGURE_OPTS=--enable-yjit PATH=/home/isucon/.cargo/bin:$PATH "
-
-  # NOTE: Ruby 3.2.0以降ではYJITを有効にしてビルドしてるかもチェックする
-  # check_command = %Q{bash -c '( #{node[:ruby][:binary]} --version | grep #{command_ruby_version} ) && ( #{node[:ruby][:binary]} --yjit -e "p RubyVM::YJIT.enabled?" | grep "true")'}
+# force_installが有効な場合には毎回必ずビルドを実行する
+if node[:ruby][:force_install]
+  force_option = "-f"
 else
-  # check_command = "#{node[:ruby][:binary]} --version | grep #{command_ruby_version}"
+  if Gem::Version.create(node[:ruby][:version]) >= Gem::Version.create("3.2.0-dev") && node[:ruby][:enabled_yjit]
+    install_options << "RUBY_CONFIGURE_OPTS=--enable-yjit PATH=/home/isucon/.cargo/bin:$PATH "
+
+    # NOTE: Ruby 3.2.0以降でenabled_yjitが有効な場合ではYJITを有効にしてビルドしてるかもチェックする
+    # c.f. https://koic.hatenablog.com/entry/building-rust-yjit
+    check_command = "#{ruby_binary} --yjit -e 'p RubyVM::YJIT.enabled?' | grep 'true'"
+  else
+    check_command = "ls #{ruby_binary}"
+  end
 end
 
-execute "#{install_options}#{node[:xbuild][:path]}/ruby-install #{node[:ruby][:version]} #{ruby_install_path}" do
+execute "#{install_options}#{node[:xbuild][:path]}/ruby-install #{force_option} #{node[:ruby][:version]} #{ruby_install_path}" do
   user "isucon"
 
-  # not_if check_command
-  not_if "ls #{ruby_install_path}/bin/ruby"
-end
-
-link node[:ruby][:binary] do
-  to    "#{ruby_install_path}/bin/ruby"
-  force true
-end
-
-link node[:gem][:binary] do
-  to    "#{ruby_install_path}/bin/gem"
-  force true
+  unless check_command.empty?
+    not_if check_command
+  end
 end
 
 node[:gem][:install].each do |gem_name, gem_version|
