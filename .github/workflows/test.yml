@@ -39,9 +39,24 @@ jobs:
           ruby-version: "3.1"
           bundler-cache: true
 
-      - run: docker build --file dockerfiles/${DOCKERFILE}.dockerfile --tag isucon-itamae:latest .
+      - name: Enable docker layer caching
+        uses: actions/cache@v3
+        id: cache
+        with:
+          path: /tmp/image.tar
+          key: v1-${{ runner.os }}-docker-${{ matrix.dockerfile }}-${{ github.sha }}
+          restore-keys:
+            v1-${{ runner.os }}-docker-${{ matrix.dockerfile }}
+
+      - name: Load Docker image layer cache
+        run: docker load -i /tmp/image.tar | true
+
+      - run: docker build --cache-from=isucon-itamae:latest --file dockerfiles/${DOCKERFILE}.dockerfile --tag isucon-itamae:latest .
         env:
           DOCKERFILE: ${{ matrix.dockerfile }}
+
+      - name: Save Docker image layer cache
+        run: docker save isucon-itamae:latest -o /tmp/image.tar
 
       - run: docker run --privileged -d --name isucon-itamae_app_1 isucon-itamae:latest /sbin/init
 
