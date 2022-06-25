@@ -116,4 +116,5 @@ namespace :test do
   end
 end
 
+desc "Run test"
 task :test => ["test:boot", "test:itamae", "test:clean"]
