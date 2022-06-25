@@ -2,6 +2,12 @@
 
 CARGO_BIN = "/home/isucon/.cargo/bin"
 
+node.reverse_merge!(
+  rust: {
+    version: "1.58.1",
+  },
+)
+
 [
   "curl"
 ].each do |name|
@@ -14,6 +20,6 @@ execute "curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
   user "isucon"
 end
 
-execute "#{CARGO_BIN}/rustup update" do
+execute "#{CARGO_BIN}/rustup install #{node[:rust][:version]} --profile minimal" do
   user "isucon"
 end
