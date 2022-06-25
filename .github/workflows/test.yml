@@ -72,7 +72,7 @@ jobs:
         if: "! success()"
         continue-on-error: true
         with:
-          job_name: ${{ format('*build* ({0})', matrix.dockerfile) }}
+          job_name: ${{ format('*test* ({0})', matrix.dockerfile) }}
           type: ${{ job.status }}
           icon_emoji: ":octocat:"
           url: ${{ secrets.SLACK_WEBHOOK }}
