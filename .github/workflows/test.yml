@@ -103,6 +103,11 @@ jobs:
         env:
           XBUILD_RUBY_VERSION: 3.2.0-dev
 
+      - name: Print build log when build is failed
+        run:  cat /tmp/*.log
+        if: "! success()"
+        continue-on-error: true
+
       - name: Slack Notification (not success)
         uses: lazy-actions/slatify@master
         if: "! success()"
