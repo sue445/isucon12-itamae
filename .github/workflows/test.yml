@@ -8,7 +8,7 @@ on:
       - "**.md"
       - ".github/dependabot.yml"
   schedule:
-    - cron: "5 14 * * *" # JST 05:05
+    - cron: "5 20 * * *" # JST 05:05
 
   pull_request:
     types:
