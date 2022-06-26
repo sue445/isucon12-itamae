@@ -4,8 +4,8 @@ xbuild:
 
 ruby:
   # xbuildでインストールするRubyのバージョン
-  version: 3.1.2
-  # version: 3.2.0-dev
+  # version: 3.1.2
+  version: 3.2.0-dev
 
   # YJITを有効にしていビルドするかどうか(3.2.0-dev以降必須)
   enabled_yjit: true
@@ -13,6 +13,9 @@ ruby:
   # rubyをforce installするかどうか。（devを再ビルドする場合には有効化する）
   force_install: false
   # force_install: true
+
+rust:
+  version: "1.58.1"
 
 gem:
   # インストールするgemの一覧

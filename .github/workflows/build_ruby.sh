@@ -7,6 +7,9 @@ cat << YAML > $NODE_FILE
 ruby:
   version: ${XBUILD_RUBY_VERSION}
   enabled_yjit: true
+
+rust:
+  version: "1.58.1"
 YAML
 
 sudo ${BUNDLE} exec itamae local --node-yaml $NODE_FILE test/cookbooks/default.rb
