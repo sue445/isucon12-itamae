@@ -34,6 +34,14 @@ def run_itamae(hostname:, ip_address:, dry_run:)
   end
 end
 
+def hosts
+  @hosts ||= YAML.load_file("hosts.yml")
+end
+
+def node
+  @node ||= YAML.load_file("node.yml")
+end
+
 namespace :itamae do
   hosts = YAML.load_file("hosts.yml")
   hosts.each do |name, data|
@@ -61,8 +69,6 @@ end
 
 desc "Print all server's public keys"
 task :print_public_keys do
-  hosts = YAML.load_file("hosts.yml")
-
   public_keys =
     hosts.map do |_, v|
       ip_address = v["ip_address"]
@@ -70,6 +76,21 @@ task :print_public_keys do
     end
 
   puts public_keys.join("\n")
+end
+
+desc "Print ruby versions in all hosts"
+task :print_ruby_versions do
+  version_command = "/home/isucon/local/ruby/versions/#{node["ruby"]["version"]}/bin/ruby --version"
+  if node["ruby"]["enabled_yjit"]
+    version_command << " --yjit"
+  end
+
+  hosts.reject{ |k, _| k.include?("bench") }.each do |k, v|
+    puts "[#{k}]"
+    ip_address = v["ip_address"]
+    version = `ssh #{ENV["SSH_USER"]}@#{ip_address} #{version_command}`.strip
+    puts version
+  end
 end
 
 def itamae_container_name

@@ -57,6 +57,7 @@ rake itamae:host02:dry_run  # Run Itamae to host02 (dry-run)
 rake itamae:host03:apply    # Run Itamae to host03
 rake itamae:host03:dry_run  # Run Itamae to host03 (dry-run)
 rake print_public_keys      # Print all server's public keys
+rake print_ruby_versions    # Print ruby versions in all hosts
 rake test                   # Run test
 rake test:boot              # Boot container
 rake test:clean             # Clean a docker container for test
