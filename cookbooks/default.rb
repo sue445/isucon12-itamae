@@ -1,3 +1,5 @@
+require_relative "../lib/helper"
+
 @available_cookbooks =
   if ENV["COOKBOOK"] && !ENV["COOKBOOK"].empty?
     ENV["COOKBOOK"].split(",")
@@ -30,11 +32,9 @@ end
 return if node[:hostname].include?("bench")
 
 # NOTE: Ruby 3.2.0-dev以降かつ、YJIT利用時のみRustのセットアップをする
-if node.dig(:ruby, :version) && Gem::Version.create(node[:ruby][:version]) >= Gem::Version.create("3.2.0-dev") && node[:ruby][:enabled_yjit]
-  if include_cookbook?("rust")
-    # Ruby 3.2.0-devでYJITを使うにはrustの処理系が必要なのでRubyよりも先に入れる
-    include_recipe "rust"
-  end
+if enabled_yjit? && include_cookbook?("rust")
+  # Ruby 3.2.0-devでYJITを使うにはrustの処理系が必要なのでRubyよりも先に入れる
+  include_recipe "rust"
 end
 
 [
