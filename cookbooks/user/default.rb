@@ -46,6 +46,24 @@ file "#{home_dir}/.bashrc" do
   end
 end
 
+execute "wget https://raw.githubusercontent.com/sue445/dotfiles/master/_gitconfig -O #{home_dir}/.gitconfig" do
+  user "isucon"
+
+  not_if "ls #{home_dir}/.gitconfig"
+end
+
+file "#{home_dir}/.bashrc" do
+  action :edit
+
+  block do |content|
+    unless content.include?("alias g='git'")
+      content << <<~BASH
+        alias g='git'
+      BASH
+    end
+  end
+end
+
 remote_file "#{home_dir}/.ssh/config"
 
 execute "cp /etc/mysql/debian.cnf #{home_dir}/.my.cnf" do
