@@ -7,8 +7,8 @@ on:
     paths-ignore:
       - "**.md"
       - ".github/dependabot.yml"
-  schedule:
-    - cron: "5 20 * * *" # JST 05:05
+  # schedule:
+  #   - cron: "5 20 * * *" # JST 05:05
 
   pull_request:
     types:
@@ -88,7 +88,7 @@ jobs:
 
       matrix:
         runner:
-          - ubuntu-20.04
+          # - ubuntu-20.04
           - ubuntu-22.04
 
     steps:
