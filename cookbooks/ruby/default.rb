@@ -27,7 +27,6 @@ end
   "zlib1g-dev",
   "libncurses5-dev",
   "libffi-dev",
-  "libgdbm6",
   "libgdbm-dev",
   "libdb-dev",
 
@@ -37,6 +36,15 @@ end
   "ruby",
 ].each do |name|
   package name
+end
+
+case node[:platform]
+when "ubuntu"
+  if node[:platform_version] >= '20.04'
+    package "libgdbm6"
+  else
+    package "libgdbm5"
+  end
 end
 
 %w(
