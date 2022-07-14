@@ -71,7 +71,7 @@ check_command = ""
 if enabled_yjit?
   # c.f.
   # * https://github.com/ruby/ruby/blob/504728307069d49994541c91769bc90444a4fce5/.github/workflows/yjit-ubuntu.yml#L45-L46
-  install_options << "RUBY_CONFIGURE_OPTS=--enable-yjit RUSTC='rustc +#{node[:rust][:version]}' PATH=/home/isucon/.cargo/bin:$PATH "
+  install_options << "RUBY_CONFIGURE_OPTS=--enable-yjit RUSTC='rustc +#{node[:ruby][:minimum_rust_version]}' PATH=/home/isucon/.cargo/bin:$PATH "
 
   # NOTE: Ruby 3.2.0以降でenabled_yjitが有効な場合ではYJITを有効にしてビルドしてるかもチェックする
   # c.f. https://koic.hatenablog.com/entry/building-rust-yjit
