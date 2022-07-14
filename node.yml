@@ -15,7 +15,9 @@ ruby:
   # force_install: true
 
 rust:
+  user: "isucon"
   version: "1.58.1"
+  rustup_install_option: "--profile minimal"
 
 gem:
   # インストールするgemの一覧
