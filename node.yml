@@ -73,7 +73,7 @@ datadog:
   agent_major_version: 7
 
   integrations:
-    datadog-puma: 1.1.0 # https://github.com/DataDog/integrations-extras/blob/master/puma/CHANGELOG.md
+    datadog-puma: 1.2.0 # https://github.com/DataDog/integrations-extras/blob/master/puma/CHANGELOG.md
 
 mysql:
   # 作成するmysqlのuser
