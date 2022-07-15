@@ -16,6 +16,7 @@ ruby:
   force_install: false
   # force_install: true
 
+# c.f. https://github.com/itamae-plugins/itamae-plugin-recipe-rust
 rust:
   user: "isucon"
   version: "1.58.1"
