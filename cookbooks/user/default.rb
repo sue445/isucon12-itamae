@@ -4,15 +4,6 @@ node.reverse_merge!(
 
 home_dir = "/home/isucon"
 
-# サーバ内でgit commitできるようにuser.nameとuser.emailは最低限設定する
-node[:git_global_config].each do |name, value|
-  execute "git config --global #{name} '#{value}'" do
-    user "isucon"
-
-    not_if "git config --global #{name} | grep '#{value}'"
-  end
-end
-
 # sshの鍵を生成する
 execute %Q(ssh-keygen -t ed25519 -C "sue445@$(hostname)" -N "" -f #{home_dir}/.ssh/id_ed25519 -q) do
   user "isucon"
@@ -50,6 +41,17 @@ execute "wget https://raw.githubusercontent.com/sue445/dotfiles/master/_gitconfi
   user "isucon"
 
   not_if "ls #{home_dir}/.gitconfig"
+end
+
+template "#{home_dir}/.gitconfig.local" do
+  mode "644"
+  owner "isucon"
+  group "isucon"
+
+  variables(
+    user_email: node[:git][:user_email],
+    user_name:  node[:git][:user_name],
+  )
 end
 
 file "#{home_dir}/.bashrc" do
