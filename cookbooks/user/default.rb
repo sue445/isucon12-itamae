@@ -29,10 +29,16 @@ file "#{home_dir}/.bashrc" do
   action :edit
 
   block do |content|
-    unless content.include?("alias tm")
-      content << <<~BASH
-        alias tm='(tmux list-sessions || tmux -u) && tmux -u a'
-      BASH
+    [
+      "alias tm='(tmux list-sessions || tmux -u) && tmux -u a'",
+      "alias g='git'",
+      "alias gs='git status -sb'",
+      "alias t='tig'",
+      "alias ta='tig --all'",
+    ].each do |line|
+      unless content.include?(line)
+        content << "#{line}\n"
+      end
     end
   end
 end
@@ -52,18 +58,6 @@ template "#{home_dir}/.gitconfig.local" do
     user_email: node[:git][:user_email],
     user_name:  node[:git][:user_name],
   )
-end
-
-file "#{home_dir}/.bashrc" do
-  action :edit
-
-  block do |content|
-    unless content.include?("alias g='git'")
-      content << <<~BASH
-        alias g='git'
-      BASH
-    end
-  end
 end
 
 remote_file "#{home_dir}/.ssh/config"
