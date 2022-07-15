@@ -1,9 +1,9 @@
 ruby:
   # version: 3.0.2
 
-git_global_config:
-  user.email: "foo@example.com"
-  user.name:  "foo"
+git:
+  user_email: "foo@example.com"
+  user_name:  "foo"
 
 packages:
   - git
