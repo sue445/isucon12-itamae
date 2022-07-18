@@ -68,7 +68,7 @@ ruby_binary = "#{ruby_install_path}/bin/ruby"
 install_options = ""
 check_command = ""
 
-if enabled_yjit?
+if enabled_rust_yjit?
   # c.f.
   # * https://github.com/ruby/ruby/blob/504728307069d49994541c91769bc90444a4fce5/.github/workflows/yjit-ubuntu.yml#L45-L46
   install_options << "RUBY_CONFIGURE_OPTS=--enable-yjit RUSTC='rustc +#{node[:ruby][:minimum_rust_version]}' PATH=/home/isucon/.cargo/bin:$PATH "
