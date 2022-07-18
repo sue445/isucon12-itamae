@@ -75,6 +75,9 @@ datadog:
   integrations:
     datadog-puma: 1.2.0 # https://github.com/DataDog/integrations-extras/blob/master/puma/CHANGELOG.md
 
+datadog_sidekiq:
+  version: v0.0.10
+
 mysql:
   # 作成するmysqlのuser
   users:
