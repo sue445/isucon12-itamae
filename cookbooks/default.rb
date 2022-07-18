@@ -32,7 +32,7 @@ end
 return if node[:hostname].include?("bench")
 
 # NOTE: Ruby 3.2.0-dev以降かつ、YJIT利用時のみRustのセットアップをする
-if enabled_yjit? && include_cookbook?("rust")
+if enabled_rust_yjit? && include_cookbook?("rust")
   # Ruby 3.2.0-devでYJITを使うにはrustの処理系が必要なのでRubyよりも先に入れる
   include_recipe "rust"
 end
