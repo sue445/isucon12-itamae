@@ -40,3 +40,5 @@ end
     end
   end
 end
+
+include_recipe "./datadog_sidekiq"
