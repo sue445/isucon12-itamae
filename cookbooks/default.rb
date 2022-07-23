@@ -38,7 +38,7 @@ if enabled_rust_yjit? && include_cookbook?("rust")
 end
 
 [
-  "mysql",
+  # "mysql",
   "nginx",
   "fluentd",
   "datadog",
